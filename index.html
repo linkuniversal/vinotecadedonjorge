@@ -1558,13 +1558,13 @@
 </head>
 <body class="preload" data-mood="day">
 
-    <!-- FONDO 3D VECTORIAL DE VIÑEDOS HD -->
+    <!-- FONDO 3D VECTORIAL DE VIÑEDOS HD CON CICLO SOLAR ORBITAL DINÁMICO -->
     <div class="vineyard-stage" aria-hidden="true">
         <canvas id="vineyard3dCanvas"></canvas>
         <div class="vineyard-veil"></div>
     </div>
 
-    <!-- MARQUESINA CONTINUA -->
+    <!-- MARQUESINA CONTINUA CON DATOS REALES -->
     <div class="top-marquee-bar" aria-label="Información destacada">
         <div class="marquee-track">
             <span>DESDE 2002 EN PUERTO IGUAZÚ ✦ PRIMERA VINOTECA ESPECIALIZADA ✦ PRECIOS ESPECIALES POR CAJA CERRADA ✦ SHOWROOM CLIMATIZADO ✦</span>
@@ -1616,6 +1616,7 @@
                 </p>
             </div>
 
+            <!-- MÉTRICAS REALES -->
             <div class="reputation-strip">
                 <a href="https://maps.google.com/?q=La+Vinoteca+de+Don+Jorge,+Av.+Rep%C3%BAblica+Argentina+188,+Puerto+Iguaz%C3%BA" target="_blank" rel="noopener noreferrer" class="rep-badge">
                     <span class="rep-star">★</span>
@@ -1627,6 +1628,7 @@
                 </a>
             </div>
 
+            <!-- ACCIONES RÁPIDAS CIRCULARES -->
             <div class="quick-social-row">
                 <a href="https://www.instagram.com/lavinotecadedonjorge/" target="_blank" rel="noopener noreferrer" class="circle-action-btn" aria-label="Instagram" onclick="triggerHaptic()">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
@@ -1795,7 +1797,7 @@
                     <h3 class="feature-cover-title">La Vinoteca de Don Jorge</h3>
                     <span class="feature-cover-addr">Av. República Argentina 188 · Desde 2002</span>
                 </div>
-                <span class="feature-cover-zoom">Ver más↗</span>
+                <span class="feature-cover-zoom">Ver foto ↗</span>
             </div>
         </article>
 
@@ -1951,6 +1953,12 @@
         </div>
     </div>
 
+    <!-- ==========================================================================
+         MOTORES JAVASCRIPT:
+         1. MOTOR 3D VECTORIAL HD DE VIÑEDOS CON CICLO SOLAR DINÁMICO ORBITAL
+         2. MÚSICA DESDE /music DE GITHUB
+         3. GUÍA, LIGHTBOX, MODAL HISTORIA Y ESTADO EN VIVO
+         ========================================================================== -->
     <script>
         function triggerHaptic() {
             if (typeof navigator !== 'undefined' && navigator.vibrate) {
@@ -1959,66 +1967,25 @@
         }
 
         /* =========================================================
-           1. MOTOR 3D VECTORIAL HD DE VIÑEDOS (PROYECCIÓN PERSPECTIVA REAL)
+           1. MOTOR 3D VECTORIAL HD DE VIÑEDOS (ÓRBITA SOLAR ORGÁNICA)
            ========================================================= */
         const Vineyard3D = (() => {
             const canvas = document.getElementById('vineyard3dCanvas');
             const ctx = canvas.getContext('2d');
 
             let W = 0, H = 0, dpr = 1;
-            let mood = 'day';
             let paused = false;
             let tClock = 0, lastTs = 0, accum = 0;
             let headX = 0, headY = 0, targetHeadX = 0, targetHeadY = 0;
 
-            // Hileras de vides en espacio mundo [-5.5 .. +5.5] convergiendo al horizonte
+            // Progreso orbital del sol (0 a 1 = Día completo, manejado por interpolación suave)
+            let sunProgress = 0.15; // 0.15 = Día, 0.65 = Atardecer / Noche
+            let targetSunProgress = 0.15;
+
             const VINE_LANES = [-6.4, -4.7, -3.1, -1.65, 1.65, 3.1, 4.7, 6.4];
             const Z_MAX = 135;
             const Z_MIN = 3.8;
             const ROW_STEP = 8.5;
-
-            const PALETTES = {
-                day: {
-                    skyTop: '#EDF5D7',
-                    skyMid: '#FBF7E7',
-                    skyHor: '#FFFDF5',
-                    sunCore: 'rgba(255, 250, 214, 0.95)',
-                    sunHalo: 'rgba(195, 220, 21, 0.24)',
-                    cloud: 'rgba(255, 255, 255, 0.72)',
-                    hills: ['#DFECC8', '#CDE0AE', '#B6D188', '#9BC05E'],
-                    groundTop: '#E9F2CE',
-                    groundBot: '#D5E5A8',
-                    river: 'rgba(130, 206, 224, 0.58)',
-                    riverEdge: 'rgba(255, 253, 245, 0.65)',
-                    soilStrip: 'rgba(182, 134, 106, 0.16)',
-                    vineDark: '#578E03',
-                    vineLight: '#9EC510',
-                    vineLime: '#C3DC15',
-                    grape: '#921C96',
-                    grapeDeep: '#59025C',
-                    post: 'rgba(122, 86, 62, 0.45)'
-                },
-                sunset: {
-                    skyTop: '#F1D4EA',
-                    skyMid: '#FCE6D8',
-                    skyHor: '#FFF5E8',
-                    sunCore: 'rgba(255, 232, 196, 0.95)',
-                    sunHalo: 'rgba(146, 28, 150, 0.18)',
-                    cloud: 'rgba(255, 244, 240, 0.68)',
-                    hills: ['#E8CBE1', '#D6B9D1', '#BFA8B8', '#8F9C4C'],
-                    groundTop: '#F1E2D0',
-                    groundBot: '#D5DF9E',
-                    river: 'rgba(188, 174, 214, 0.52)',
-                    riverEdge: 'rgba(255, 245, 232, 0.72)',
-                    soilStrip: 'rgba(164, 112, 92, 0.18)',
-                    vineDark: '#4D7E04',
-                    vineLight: '#8CB612',
-                    vineLime: '#C3DC15',
-                    grape: '#921C96',
-                    grapeDeep: '#59025C',
-                    post: 'rgba(102, 66, 72, 0.45)'
-                }
-            };
 
             function resizeDisplay() {
                 W = window.innerWidth;
@@ -2046,32 +2013,57 @@
                 ctx.fill();
             }
 
+            // Interpolador lineal de color RGB para transición orgánica entre sol y atardecer
+            function lerpCol(c1, c2, t) {
+                return [
+                    Math.round(c1[0] + (c2[0] - c1[0]) * t),
+                    Math.round(c1[1] + (c2[1] - c1[1]) * t),
+                    Math.round(c1[2] + (c2[2] - c1[2]) * t)
+                ];
+            }
+
             function renderFrame(dt) {
                 tClock += dt;
                 headX += (targetHeadX - headX) * Math.min(1, dt * 3.5);
                 headY += (targetHeadY - headY) * Math.min(1, dt * 3.5);
 
-                const p = PALETTES[mood] || PALETTES.day;
+                // Interpolación suave (lerp) hacia el estado solar seleccionado
+                sunProgress += (targetSunProgress - sunProgress) * Math.min(1, dt * 2.2);
+
                 const horizonY = H * 0.34 + headY * 14;
                 const focal = Math.max(W, H) * 0.85;
                 const camH = 3.2;
                 const cx = W * 0.5 + headX * 26;
 
-                // 1. Cielo degradado limpio
+                // Paletas dinámicas mezcladas matemáticamente por sunProgress
+                const skyTopDay = [237, 245, 215], skyTopSet = [241, 212, 234];
+                const skyMidDay = [251, 247, 231], skyMidSet = [252, 230, 216];
+                const skyHorDay = [255, 253, 245], skyHorSet = [255, 245, 232];
+
+                const st = lerpCol(skyTopDay, skyTopSet, sunProgress);
+                const sm = lerpCol(skyMidDay, skyMidSet, sunProgress);
+                const sh = lerpCol(skyHorDay, skyHorSet, sunProgress);
+
+                // 1. Cielo orbital degradado en vivo
                 const skyGrad = ctx.createLinearGradient(0, 0, 0, horizonY + 12);
-                skyGrad.addColorStop(0, p.skyTop);
-                skyGrad.addColorStop(0.55, p.skyMid);
-                skyGrad.addColorStop(1, p.skyHor);
+                skyGrad.addColorStop(0, `rgb(${st.join(',')})`);
+                skyGrad.addColorStop(0.55, `rgb(${sm.join(',')})`);
+                skyGrad.addColorStop(1, `rgb(${sh.join(',')})`);
                 ctx.fillStyle = skyGrad;
                 ctx.fillRect(0, 0, W, horizonY + 14);
 
-                // Sol luminoso suave + halo
-                const sunX = W * 0.74 - headX * 10;
-                const sunY = Math.max(28, horizonY * 0.44);
-                const sunRad = Math.min(W, H) * 0.16;
+                // Órbita real del Sol cruzando el cielo en arco parabólico
+                const sunAngle = sunProgress * Math.PI;
+                const sunX = W * 0.25 + Math.sin(sunAngle) * (W * 0.5) - headX * 10;
+                const sunY = Math.max(24, horizonY * 0.9 - Math.sin(sunAngle) * (horizonY * 0.65));
+                const sunRad = Math.min(W, H) * (0.13 + Math.sin(sunAngle) * 0.04);
+
+                const sunCore = sunProgress > 0.4 ? 'rgba(255, 226, 178, 0.95)' : 'rgba(255, 250, 214, 0.95)';
+                const sunHalo = sunProgress > 0.4 ? 'rgba(146, 28, 150, 0.20)' : 'rgba(195, 220, 21, 0.24)';
+
                 const sunGrad = ctx.createRadialGradient(sunX, sunY, 4, sunX, sunY, sunRad);
-                sunGrad.addColorStop(0, p.sunCore);
-                sunGrad.addColorStop(0.35, p.sunHalo);
+                sunGrad.addColorStop(0, sunCore);
+                sunGrad.addColorStop(0.35, sunHalo);
                 sunGrad.addColorStop(1, 'rgba(251, 247, 231, 0)');
                 ctx.fillStyle = sunGrad;
                 ctx.beginPath();
@@ -2079,7 +2071,7 @@
                 ctx.fill();
 
                 // Nubes suaves a la deriva
-                ctx.fillStyle = p.cloud;
+                ctx.fillStyle = sunProgress > 0.4 ? 'rgba(255, 244, 240, 0.70)' : 'rgba(255, 255, 255, 0.72)';
                 for (let i = 0; i < 4; i++) {
                     const cloudW = W * (0.20 + (i % 2) * 0.08);
                     const cxCloud = ((i * W * 0.32 + tClock * (4 + i * 1.1)) % (W + cloudW * 2)) - cloudW;
@@ -2091,25 +2083,27 @@
                     ctx.fill();
                 }
 
-                // 2. Colinas suaves de fondo en parallax 3D
-                drawHillLayer(horizonY + 2,  H * 0.065, 3.2, 0.4 + tClock * 0.015, p.hills[0], headX * 0.12);
-                drawHillLayer(horizonY + 6,  H * 0.052, 4.4, 1.8 + tClock * 0.022, p.hills[1], headX * 0.22);
-                drawHillLayer(horizonY + 9,  H * 0.038, 5.6, 3.1 + tClock * 0.030, p.hills[2], headX * 0.34);
-                drawHillLayer(horizonY + 11, H * 0.024, 6.8, 0.9 + tClock * 0.040, p.hills[3], headX * 0.48);
+                // 2. Colinas con tono dinámico
+                const hillBase = lerpCol([223, 236, 200], [232, 203, 225], sunProgress);
+                drawHillLayer(horizonY + 2,  H * 0.065, 3.2, 0.4 + tClock * 0.015, `rgb(${hillBase.join(',')})`, headX * 0.12);
+                drawHillLayer(horizonY + 6,  H * 0.052, 4.4, 1.8 + tClock * 0.022, `rgb(${lerpCol([205, 224, 174], [214, 185, 209], sunProgress).join(',')})`, headX * 0.22);
+                drawHillLayer(horizonY + 9,  H * 0.038, 5.6, 3.1 + tClock * 0.030, `rgb(${lerpCol([182, 209, 136], [191, 168, 184], sunProgress).join(',')})`, headX * 0.34);
+                drawHillLayer(horizonY + 11, H * 0.024, 6.8, 0.9 + tClock * 0.040, `rgb(${lerpCol([155, 192, 94], [143, 156, 76], sunProgress).join(',')})`, headX * 0.48);
 
-                // 3. Suelo del valle en degradado desde el horizonte hacia abajo
+                // 3. Suelo del valle
+                const gTop = lerpCol([233, 242, 206], [241, 226, 208], sunProgress);
+                const gBot = lerpCol([213, 229, 168], [213, 223, 158], sunProgress);
                 const gGrad = ctx.createLinearGradient(0, horizonY, 0, H);
-                gGrad.addColorStop(0, p.skyHor);
-                gGrad.addColorStop(0.18, p.groundTop);
-                gGrad.addColorStop(1, p.groundBot);
+                gGrad.addColorStop(0, `rgb(${sh.join(',')})`);
+                gGrad.addColorStop(0.18, `rgb(${gTop.join(',')})`);
+                gGrad.addColorStop(1, `rgb(${gBot.join(',')})`);
                 ctx.fillStyle = gGrad;
                 ctx.fillRect(0, horizonY, W, H - horizonY);
 
-                // Helper de proyección 3D perspectiva
                 const projX = (wx, z) => cx + wx * (focal / z);
                 const projY = (wh, z) => horizonY + (camH - wh) * (focal / z);
 
-                // 4. Franja serena del río en perspectiva (guiño 3 Fronteras) por el centro-derecho
+                // 4. Franja del río
                 ctx.beginPath();
                 for (let z = Z_MAX; z >= Z_MIN; z -= 6) {
                     const rx = 0.25 + Math.sin(z * 0.045 + tClock * 0.25) * 0.32;
@@ -2122,13 +2116,13 @@
                     ctx.lineTo(xR, yG);
                 }
                 ctx.closePath();
-                ctx.fillStyle = p.river;
+                ctx.fillStyle = sunProgress > 0.4 ? 'rgba(188, 174, 214, 0.52)' : 'rgba(130, 206, 224, 0.58)';
                 ctx.fill();
-                ctx.strokeStyle = p.riverEdge;
+                ctx.strokeStyle = 'rgba(255, 253, 245, 0.65)';
                 ctx.lineWidth = 1.2;
                 ctx.stroke();
 
-                // 5. Surcos continuos en perspectiva de cada hilera de vides
+                // 5. Surcos de vides en perspectiva
                 for (let li = 0; li < VINE_LANES.length; li++) {
                     const laneX = VINE_LANES[li];
                     const xFarL = projX(laneX - 0.42, Z_MAX), xFarR = projX(laneX + 0.42, Z_MAX);
@@ -2136,8 +2130,7 @@
                     const xNearL = projX(laneX - 0.42, Z_MIN), xNearR = projX(laneX + 0.42, Z_MIN);
                     const yNear = projY(0, Z_MIN);
 
-                    // Franja de tierra bajo la vid
-                    ctx.fillStyle = p.soilStrip;
+                    ctx.fillStyle = sunProgress > 0.4 ? 'rgba(164, 112, 92, 0.18)' : 'rgba(182, 134, 106, 0.16)';
                     ctx.beginPath();
                     ctx.moveTo(xFarL, yFar);
                     ctx.lineTo(xFarR, yFar);
@@ -2146,7 +2139,6 @@
                     ctx.closePath();
                     ctx.fill();
 
-                    // Cable guía del espaldero convergiendo al horizonte
                     ctx.strokeStyle = 'rgba(87, 142, 3, 0.22)';
                     ctx.lineWidth = 1;
                     ctx.beginPath();
@@ -2155,7 +2147,7 @@
                     ctx.stroke();
                 }
 
-                // 6. Plantas de vid, postes y racimos avanzando suavemente de atrás hacia adelante (orden z descendente)
+                // 6. Plantas de vid y uvas
                 const travel = (tClock * 5.2) % ROW_STEP;
                 const stepsCount = Math.floor((Z_MAX - Z_MIN) / ROW_STEP);
 
@@ -2167,7 +2159,6 @@
                     const yBase = projY(0, z);
                     if (yBase > H + 80) continue;
 
-                    // Desvanecimiento suave hacia la bruma del horizonte
                     const distAlpha = Math.max(0, Math.min(1, 1 - (z - 25) / (Z_MAX - 25)));
                     if (distAlpha <= 0.02) continue;
 
@@ -2182,35 +2173,32 @@
                         const sx = projX(laneX, z);
                         if (sx < -bushR * 2 || sx > W + bushR * 2) continue;
 
-                        // Poste de espaldero
-                        ctx.strokeStyle = p.post;
+                        ctx.strokeStyle = sunProgress > 0.4 ? 'rgba(102, 66, 72, 0.45)' : 'rgba(122, 86, 62, 0.45)';
                         ctx.lineWidth = Math.max(1, 0.06 * sc);
                         ctx.beginPath();
                         ctx.moveTo(sx, yBase);
                         ctx.lineTo(sx, yBase - postH);
                         ctx.stroke();
 
-                        // Follaje de vid en dos capas (verde profundo + luz lima arriba)
-                        ctx.fillStyle = p.vineDark;
+                        ctx.fillStyle = sunProgress > 0.4 ? '#4D7E04' : '#578E03';
                         ctx.beginPath();
                         ctx.ellipse(sx, yBase - bushH * 0.55, bushR, bushH * 0.62, 0, 0, Math.PI * 2);
                         ctx.fill();
 
-                        ctx.fillStyle = (li + s) % 2 === 0 ? p.vineLight : p.vineLime;
+                        ctx.fillStyle = sunProgress > 0.4 ? '#8CB612' : '#9EC510';
                         ctx.beginPath();
                         ctx.ellipse(sx - bushR * 0.14, yBase - bushH * 0.78, bushR * 0.72, bushH * 0.44, 0, 0, Math.PI * 2);
                         ctx.fill();
 
-                        // Racimos de uva púrpura visibles en primer y medio plano
                         if (bushR > 5 && ((li + s) % 2 === 0)) {
                             const gr = Math.max(1.6, bushR * 0.16);
-                            ctx.fillStyle = p.grape;
+                            ctx.fillStyle = '#921C96';
                             ctx.beginPath();
                             ctx.arc(sx + bushR * 0.25, yBase - bushH * 0.46, gr, 0, Math.PI * 2);
                             ctx.arc(sx - bushR * 0.22, yBase - bushH * 0.36, gr * 0.85, 0, Math.PI * 2);
                             ctx.fill();
 
-                            ctx.fillStyle = p.grapeDeep;
+                            ctx.fillStyle = '#59025C';
                             ctx.beginPath();
                             ctx.arc(sx + bushR * 0.26, yBase - bushH * 0.35, gr * 0.65, 0, Math.PI * 2);
                             ctx.fill();
@@ -2220,9 +2208,9 @@
 
                 ctx.globalAlpha = 1;
 
-                // 7. Bruma sedosa uniendo el horizonte con el cielo
+                // 7. Bruma sedosa del horizonte
                 const hazeGrad = ctx.createLinearGradient(0, horizonY - 12, 0, horizonY + H * 0.16);
-                hazeGrad.addColorStop(0, p.skyHor);
+                hazeGrad.addColorStop(0, `rgb(${sh.join(',')})`);
                 hazeGrad.addColorStop(1, 'rgba(251, 247, 231, 0)');
                 ctx.fillStyle = hazeGrad;
                 ctx.fillRect(0, horizonY - 12, W, H * 0.18);
@@ -2234,7 +2222,7 @@
                 const dt = Math.min(0.05, Math.max(0.001, (now - lastTs) / 1000));
                 lastTs = now;
                 accum += dt;
-                if (accum >= 0.032) { // ~30 FPS súper fluidos y eficientes
+                if (accum >= 0.032) {
                     renderFrame(accum);
                     accum = 0;
                 }
@@ -2260,9 +2248,8 @@
                         }
                     }, { passive: true });
                 },
-                setMood(m) {
-                    mood = m;
-                    renderFrame(0.016);
+                setSun(val) {
+                    targetSunProgress = val;
                 },
                 setPaused(val) {
                     paused = val;
@@ -2275,7 +2262,10 @@
             const cur = document.body.getAttribute('data-mood') || 'day';
             const next = cur === 'day' ? 'sunset' : 'day';
             document.body.setAttribute('data-mood', next);
-            Vineyard3D.setMood(next);
+            
+            // Órbita solar dinámica gradual
+            Vineyard3D.setSun(next === 'sunset' ? 0.72 : 0.15);
+
             document.getElementById('moodIcon').textContent = next === 'day' ? '🍇' : '🌅';
             document.getElementById('moodLabel').textContent = next === 'day' ? 'Día' : 'Atardecer';
             try { localStorage.setItem('dj_mood', next); } catch(e) {}
@@ -2647,7 +2637,7 @@
                 const savedMood = localStorage.getItem('dj_mood');
                 if (savedMood === 'sunset') {
                     document.body.setAttribute('data-mood', 'sunset');
-                    Vineyard3D.setMood('sunset');
+                    Vineyard3D.setSun(0.72);
                     document.getElementById('moodIcon').textContent = '🌅';
                     document.getElementById('moodLabel').textContent = 'Atardecer';
                 }
