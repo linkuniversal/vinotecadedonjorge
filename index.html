@@ -1579,7 +1579,7 @@
         <nav class="utility-dock" aria-label="Controles de ambiente y música">
             <button type="button" class="pill-control" id="moodToggleBtn" onclick="toggleVineyardMood()" title="Cambiar luz del viñedo">
                 <span id="moodIcon">🍇</span>
-                <span id="moodLabel">Viñedo Día</span>
+                <span id="moodLabel">Día</span>
             </button>
 
             <div class="music-cluster">
@@ -1795,7 +1795,7 @@
                     <h3 class="feature-cover-title">La Vinoteca de Don Jorge</h3>
                     <span class="feature-cover-addr">Av. República Argentina 188 · Desde 2002</span>
                 </div>
-                <span class="feature-cover-zoom">Ver foto ↗</span>
+                <span class="feature-cover-zoom">Ver más↗</span>
             </div>
         </article>
 
@@ -2277,7 +2277,7 @@
             document.body.setAttribute('data-mood', next);
             Vineyard3D.setMood(next);
             document.getElementById('moodIcon').textContent = next === 'day' ? '🍇' : '🌅';
-            document.getElementById('moodLabel').textContent = next === 'day' ? 'Viñedo Día' : 'Atardecer';
+            document.getElementById('moodLabel').textContent = next === 'day' ? 'Día' : 'Atardecer';
             try { localStorage.setItem('dj_mood', next); } catch(e) {}
         }
 
