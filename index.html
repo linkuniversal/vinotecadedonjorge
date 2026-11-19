@@ -1,3 +1,17 @@
+Aquí tienes el código completo con los ajustes aplicados, manteniendo intacto
+todo el resto de la página:
+
+  - Barra superior limpia en una sola línea (flex-wrap: nowrap): idioma (🌐 ES |
+    PT | EN) a la izquierda y música (🔈 Música + siguiente pista) a la derecha,
+    sin el botón manual.
+  - Sol y cielo en vivo según la Triple Frontera (-25.60° S, -54.57° O, UTC-3):
+    calcula automáticamente la elevación real del sol según la fecha y hora
+    local (verano, otoño, invierno y primavera) y se actualiza solo cada minuto.
+  - Noche de campo azulada marino: cielo nocturno azul marino luminoso con luna
+    y estrellas sutiles, viñedos iluminados bajo la luz lunar en armonía con el
+    verde vid, púrpura uva y crema del logo, manteniendo la lectura impecable
+    del título y pie de página.
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -99,6 +113,10 @@
             background: linear-gradient(180deg, #E8F2D6 0%, #FBF7E7 55%, #F6EFE0 100%);
         }
 
+        body[data-mood="night"] .vineyard-stage {
+            background: linear-gradient(180deg, #162A4C 0%, #243F6E 55%, #1E345A 100%);
+        }
+
         #vineyard3dCanvas {
             position: absolute;
             inset: 0;
@@ -113,13 +131,19 @@
             background:
                 radial-gradient(circle at 50% 10%, rgba(251, 247, 231, 0.05) 0%, rgba(251, 247, 231, 0.32) 55%, rgba(251, 247, 231, 0.62) 100%),
                 linear-gradient(180deg, rgba(251, 247, 231, 0.08) 0%, rgba(251, 247, 231, 0.38) 46%, rgba(251, 247, 231, 0.68) 100%);
-            transition: background 0.45s ease;
+            transition: background 0.6s ease;
         }
 
         body[data-mood="sunset"] .vineyard-veil {
             background:
                 radial-gradient(circle at 50% 12%, rgba(255, 240, 224, 0.08) 0%, rgba(251, 240, 232, 0.36) 55%, rgba(251, 247, 231, 0.66) 100%),
                 linear-gradient(180deg, rgba(255, 244, 232, 0.10) 0%, rgba(251, 247, 231, 0.42) 48%, rgba(251, 247, 231, 0.72) 100%);
+        }
+
+        body[data-mood="night"] .vineyard-veil {
+            background:
+                radial-gradient(circle at 50% 12%, rgba(24, 46, 84, 0.04) 0%, rgba(26, 48, 86, 0.18) 55%, rgba(20, 35, 66, 0.38) 100%),
+                linear-gradient(180deg, rgba(20, 38, 72, 0.04) 0%, rgba(26, 46, 82, 0.18) 48%, rgba(20, 34, 62, 0.44) 100%);
         }
 
         /* ==========================================================================
@@ -174,15 +198,15 @@
         }
 
         /* ==========================================================================
-           5. BARRA DE UTILIDADES
+           5. BARRA DE UTILIDADES (IDIOMA IZQUIERDA · MÚSICA DERECHA)
            ========================================================================== */
         .utility-dock {
             width: 100%;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 6px;
-            flex-wrap: wrap;
+            gap: 8px;
+            flex-wrap: nowrap;
         }
 
         .pill-control {
@@ -205,6 +229,7 @@
             box-shadow: 0 4px 12px rgba(13, 9, 19, 0.06);
             transition: all 0.22s var(--spring);
             user-select: none;
+            white-space: nowrap;
         }
 
         .pill-control:hover {
@@ -229,6 +254,7 @@
             border-radius: 999px;
             padding: 4px 5px;
             box-shadow: 0 4px 12px rgba(13, 9, 19, 0.06);
+            flex-shrink: 0;
         }
 
         .lang-globe {
@@ -265,6 +291,7 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
+            flex-shrink: 0;
         }
 
         .toggle-track {
@@ -318,6 +345,7 @@
             cursor: pointer;
             box-shadow: 0 4px 12px rgba(13, 9, 19, 0.06);
             transition: all 0.22s var(--spring);
+            flex-shrink: 0;
         }
 
         .btn-skip-track:hover {
@@ -365,6 +393,11 @@
             cursor: pointer;
         }
 
+        body[data-mood="night"] .coin-medallion {
+            outline-color: rgba(195, 220, 21, 0.55);
+            box-shadow: 0 18px 42px -6px rgba(10, 20, 44, 0.55), 0 0 26px rgba(251, 247, 231, 0.24), 0 0 0 6px rgba(251, 247, 231, 0.28);
+        }
+
         @keyframes coinGentleSway {
             0%   { transform: rotateY(0deg) rotateZ(0deg); }
             25%  { transform: rotateY(18deg) rotateZ(0.8deg); }
@@ -400,6 +433,12 @@
             line-height: 0.98;
             letter-spacing: -0.015em;
             text-shadow: 0 2px 14px rgba(251, 247, 231, 0.95);
+            transition: color 0.5s ease, text-shadow 0.5s ease;
+        }
+
+        body[data-mood="night"] .brand-title {
+            color: var(--cream-base);
+            text-shadow: 0 2px 16px rgba(14, 26, 52, 0.9), 0 0 28px rgba(146, 28, 150, 0.35);
         }
 
         .brand-category-tag {
@@ -413,6 +452,13 @@
             border: 1px solid rgba(87, 142, 3, 0.38);
             padding: 4px 12px;
             border-radius: 999px;
+            transition: background-color 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
+        }
+
+        body[data-mood="night"] .brand-category-tag {
+            background: rgba(251, 247, 231, 0.92);
+            border-color: rgba(195, 220, 21, 0.65);
+            box-shadow: 0 4px 14px rgba(12, 22, 46, 0.35);
         }
 
         .brand-bio-card {
@@ -737,7 +783,6 @@
             box-shadow: var(--shadow-hover);
         }
 
-        /* Matices cálidos en verde vid y púrpura uva */
         .bento-card.arch-tl {
             border-radius: 34px 16px 16px 16px;
             border-top: 3.5px solid var(--vine-green);
@@ -1565,6 +1610,10 @@
             gap: 6px;
         }
 
+        body[data-mood="night"] .hub-footer {
+            border-top-color: rgba(195, 220, 21, 0.35);
+        }
+
         .footer-brand-badge {
             display: inline-flex;
             align-items: center;
@@ -1585,6 +1634,12 @@
             font-size: 0.66rem;
             color: var(--ink-muted);
             line-height: 1.45;
+            transition: color 0.5s ease;
+        }
+
+        body[data-mood="night"] .footer-legal {
+            color: rgba(251, 247, 231, 0.88);
+            text-shadow: 0 1px 8px rgba(12, 22, 46, 0.75);
         }
 
         @media (max-width: 360px) {
@@ -1602,7 +1657,7 @@
 </head>
 <body class="preload" data-mood="day">
 
-    <!-- FONDO 3D VECTORIAL DE VIÑEDOS HD CON CICLO SOLAR ORBITAL DINÁMICO -->
+    <!-- FONDO 3D VECTORIAL DE VIÑEDOS HD CON CICLO SOLAR EN VIVO (TRIPLE FRONTERA) -->
     <div class="vineyard-stage" aria-hidden="true">
         <canvas id="vineyard3dCanvas"></canvas>
         <div class="vineyard-veil"></div>
@@ -1619,13 +1674,8 @@
     <!-- CONTENEDOR PRINCIPAL -->
     <main class="hub-shell">
 
-        <!-- 1. BARRA SUPERIOR: ATMÓSFERA + IDIOMA + MÚSICA DESDE /music -->
-        <nav class="utility-dock" aria-label="Controles de ambiente, idioma y música">
-            <button type="button" class="pill-control" id="moodToggleBtn" onclick="toggleVineyardMood()" title="Cambiar luz del viñedo">
-                <span id="moodIcon">🍇</span>
-                <span id="moodLabel">Día</span>
-            </button>
-
+        <!-- 1. BARRA SUPERIOR: IDIOMA A LA IZQUIERDA · MÚSICA A LA DERECHA -->
+        <nav class="utility-dock" aria-label="Controles de idioma y música">
             <div class="lang-pill" role="group" aria-label="Idioma / Language">
                 <span class="lang-globe" aria-hidden="true">🌐</span>
                 <button type="button" class="lang-btn active" data-lang="es" onclick="setLanguage('es')">ES</button>
@@ -2009,7 +2059,7 @@
 
     <!-- ==========================================================================
          MOTORES JAVASCRIPT:
-         1. MOTOR 3D VECTORIAL HD DE VIÑEDOS CON CICLO SOLAR DINÁMICO ORBITAL
+         1. MOTOR 3D VECTORIAL HD DE VIÑEDOS + CICLO SOLAR EN VIVO (TRIPLE FRONTERA)
          2. MOTOR I18N (ES / PT / EN) LITERAL, HUMANO Y PERSISTENTE
          3. MÚSICA DESDE /music DE GITHUB
          4. GUÍA, LIGHTBOX, MODAL HISTORIA Y ESTADO EN VIVO
@@ -2022,7 +2072,7 @@
         }
 
         /* =========================================================
-           1. MOTOR 3D VECTORIAL HD DE VIÑEDOS (ÓRBITA SOLAR ORGÁNICA)
+           1. MOTOR 3D VECTORIAL HD DE VIÑEDOS (DÍA / ATARDECER / NOCHE MARINA)
            ========================================================= */
         const Vineyard3D = (() => {
             const canvas = document.getElementById('vineyard3dCanvas');
@@ -2033,13 +2083,21 @@
             let tClock = 0, lastTs = 0, accum = 0;
             let headX = 0, headY = 0, targetHeadX = 0, targetHeadY = 0;
 
-            let sunProgress = 0.15;
-            let targetSunProgress = 0.15;
+            let sunProgress = 0.25, targetSunProgress = 0.25;
+            let sunsetMix = 0, targetSunsetMix = 0;
+            let nightMix = 0, targetNightMix = 0;
 
             const VINE_LANES = [-6.4, -4.7, -3.1, -1.65, 1.65, 3.1, 4.7, 6.4];
             const Z_MAX = 135;
             const Z_MIN = 3.8;
             const ROW_STEP = 8.5;
+
+            const NIGHT_STARS = Array.from({ length: 38 }, (_, i) => ({
+                x: ((i * 73 + 19) % 100) / 100,
+                y: ((i * 41 + 11) % 86) / 100,
+                r: 0.75 + (i % 3) * 0.45,
+                phase: i * 0.9
+            }));
 
             function resizeDisplay() {
                 W = window.innerWidth;
@@ -2075,25 +2133,28 @@
                 ];
             }
 
+            function mixTriCol(dayC, setC, nightC) {
+                return lerpCol(lerpCol(dayC, setC, sunsetMix), nightC, nightMix);
+            }
+
             function renderFrame(dt) {
                 tClock += dt;
                 headX += (targetHeadX - headX) * Math.min(1, dt * 3.5);
                 headY += (targetHeadY - headY) * Math.min(1, dt * 3.5);
 
                 sunProgress += (targetSunProgress - sunProgress) * Math.min(1, dt * 2.2);
+                sunsetMix   += (targetSunsetMix - sunsetMix)     * Math.min(1, dt * 2.2);
+                nightMix    += (targetNightMix - nightMix)       * Math.min(1, dt * 2.2);
 
                 const horizonY = H * 0.34 + headY * 14;
                 const focal = Math.max(W, H) * 0.85;
                 const camH = 3.2;
                 const cx = W * 0.5 + headX * 26;
 
-                const skyTopDay = [237, 245, 215], skyTopSet = [241, 212, 234];
-                const skyMidDay = [251, 247, 231], skyMidSet = [252, 230, 216];
-                const skyHorDay = [255, 253, 245], skyHorSet = [255, 245, 232];
-
-                const st = lerpCol(skyTopDay, skyTopSet, sunProgress);
-                const sm = lerpCol(skyMidDay, skyMidSet, sunProgress);
-                const sh = lerpCol(skyHorDay, skyHorSet, sunProgress);
+                // Cielo armónico: Día pergamino vid -> Atardecer uva/ámbar -> Noche de campo azulada marino
+                const st = mixTriCol([237, 245, 215], [241, 212, 234], [22, 42, 78]);
+                const sm = mixTriCol([251, 247, 231], [252, 230, 216], [34, 62, 112]);
+                const sh = mixTriCol([255, 253, 245], [255, 245, 232], [58, 86, 138]);
 
                 const skyGrad = ctx.createLinearGradient(0, 0, 0, horizonY + 12);
                 skyGrad.addColorStop(0, `rgb(${st.join(',')})`);
@@ -2102,24 +2163,69 @@
                 ctx.fillStyle = skyGrad;
                 ctx.fillRect(0, 0, W, horizonY + 14);
 
-                const sunAngle = sunProgress * Math.PI;
-                const sunX = W * 0.25 + Math.sin(sunAngle) * (W * 0.5) - headX * 10;
-                const sunY = Math.max(24, horizonY * 0.9 - Math.sin(sunAngle) * (horizonY * 0.65));
-                const sunRad = Math.min(W, H) * (0.13 + Math.sin(sunAngle) * 0.04);
+                // Estrellas sutiles en la noche azul marino
+                if (nightMix > 0.08) {
+                    for (let i = 0; i < NIGHT_STARS.length; i++) {
+                        const star = NIGHT_STARS[i];
+                        const twinkle = 0.52 + 0.48 * Math.sin(tClock * 1.4 + star.phase);
+                        ctx.fillStyle = `rgba(251, 247, 231, ${(nightMix * 0.72 * twinkle).toFixed(3)})`;
+                        ctx.beginPath();
+                        ctx.arc(star.x * W - headX * 6, star.y * horizonY * 0.85, star.r, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                }
 
-                const sunCore = sunProgress > 0.4 ? 'rgba(255, 226, 178, 0.95)' : 'rgba(255, 250, 214, 0.95)';
-                const sunHalo = sunProgress > 0.4 ? 'rgba(146, 28, 150, 0.20)' : 'rgba(195, 220, 21, 0.24)';
+                // Astro orbital: Sol de día/atardecer o Luna campestre luminosa de noche
+                if (nightMix < 0.92) {
+                    const sunAlpha = 1 - nightMix;
+                    const sunAngle = sunProgress * Math.PI;
+                    const sunX = W * 0.18 + sunProgress * (W * 0.64) - headX * 10;
+                    const sunY = Math.max(24, horizonY * 0.9 - Math.sin(sunAngle) * (horizonY * 0.65));
+                    const sunRad = Math.min(W, H) * (0.13 + Math.sin(sunAngle) * 0.04);
 
-                const sunGrad = ctx.createRadialGradient(sunX, sunY, 4, sunX, sunY, sunRad);
-                sunGrad.addColorStop(0, sunCore);
-                sunGrad.addColorStop(0.35, sunHalo);
-                sunGrad.addColorStop(1, 'rgba(251, 247, 231, 0)');
-                ctx.fillStyle = sunGrad;
-                ctx.beginPath();
-                ctx.arc(sunX, sunY, sunRad, 0, Math.PI * 2);
-                ctx.fill();
+                    const sunCore = sunsetMix > 0.35
+                        ? `rgba(255, 226, 178, ${(0.95 * sunAlpha).toFixed(3)})`
+                        : `rgba(255, 250, 214, ${(0.95 * sunAlpha).toFixed(3)})`;
+                    const sunHalo = sunsetMix > 0.35
+                        ? `rgba(146, 28, 150, ${(0.22 * sunAlpha).toFixed(3)})`
+                        : `rgba(195, 220, 21, ${(0.24 * sunAlpha).toFixed(3)})`;
 
-                ctx.fillStyle = sunProgress > 0.4 ? 'rgba(255, 244, 240, 0.70)' : 'rgba(255, 255, 255, 0.72)';
+                    const sunGrad = ctx.createRadialGradient(sunX, sunY, 4, sunX, sunY, sunRad);
+                    sunGrad.addColorStop(0, sunCore);
+                    sunGrad.addColorStop(0.35, sunHalo);
+                    sunGrad.addColorStop(1, 'rgba(251, 247, 231, 0)');
+                    ctx.fillStyle = sunGrad;
+                    ctx.beginPath();
+                    ctx.arc(sunX, sunY, sunRad, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+
+                if (nightMix > 0.08) {
+                    const moonX = W * 0.76 - headX * 8;
+                    const moonY = Math.max(30, horizonY * 0.34);
+                    const moonHaloR = Math.min(W, H) * 0.17;
+                    const moonDiscR = Math.max(11, Math.min(W, H) * 0.028);
+
+                    const moonGrad = ctx.createRadialGradient(moonX, moonY, moonDiscR * 0.4, moonX, moonY, moonHaloR);
+                    moonGrad.addColorStop(0, `rgba(251, 247, 231, ${(0.55 * nightMix).toFixed(3)})`);
+                    moonGrad.addColorStop(0.36, `rgba(192, 218, 255, ${(0.22 * nightMix).toFixed(3)})`);
+                    moonGrad.addColorStop(0.68, `rgba(146, 28, 150, ${(0.09 * nightMix).toFixed(3)})`);
+                    moonGrad.addColorStop(1, 'rgba(34, 62, 112, 0)');
+                    ctx.fillStyle = moonGrad;
+                    ctx.beginPath();
+                    ctx.arc(moonX, moonY, moonHaloR, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    ctx.fillStyle = `rgba(251, 247, 231, ${(0.94 * nightMix).toFixed(3)})`;
+                    ctx.beginPath();
+                    ctx.arc(moonX, moonY, moonDiscR, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+
+                // Nubes suaves
+                const cloudAlpha = 0.72 - nightMix * 0.48;
+                const cloudCol = mixTriCol([255, 255, 255], [255, 244, 240], [186, 208, 242]);
+                ctx.fillStyle = `rgba(${cloudCol.join(',')}, ${cloudAlpha.toFixed(2)})`;
                 for (let i = 0; i < 4; i++) {
                     const cloudW = W * (0.20 + (i % 2) * 0.08);
                     const cxCloud = ((i * W * 0.32 + tClock * (4 + i * 1.1)) % (W + cloudW * 2)) - cloudW;
@@ -2131,14 +2237,20 @@
                     ctx.fill();
                 }
 
-                const hillBase = lerpCol([223, 236, 200], [232, 203, 225], sunProgress);
-                drawHillLayer(horizonY + 2,  H * 0.065, 3.2, 0.4 + tClock * 0.015, `rgb(${hillBase.join(',')})`, headX * 0.12);
-                drawHillLayer(horizonY + 6,  H * 0.052, 4.4, 1.8 + tClock * 0.022, `rgb(${lerpCol([205, 224, 174], [214, 185, 209], sunProgress).join(',')})`, headX * 0.22);
-                drawHillLayer(horizonY + 9,  H * 0.038, 5.6, 3.1 + tClock * 0.030, `rgb(${lerpCol([182, 209, 136], [191, 168, 184], sunProgress).join(',')})`, headX * 0.34);
-                drawHillLayer(horizonY + 11, H * 0.024, 6.8, 0.9 + tClock * 0.040, `rgb(${lerpCol([155, 192, 94], [143, 156, 76], sunProgress).join(',')})`, headX * 0.48);
+                // Colinas ondulantes (en la noche pasan a azul marino profundo y verde bosque lunar)
+                const h1 = mixTriCol([223, 236, 200], [232, 203, 225], [44, 69, 114]);
+                const h2 = mixTriCol([205, 224, 174], [214, 185, 209], [36, 62, 100]);
+                const h3 = mixTriCol([182, 209, 136], [191, 168, 184], [32, 66, 84]);
+                const h4 = mixTriCol([155, 192, 94],  [143, 156, 76],  [35, 76, 66]);
 
-                const gTop = lerpCol([233, 242, 206], [241, 226, 208], sunProgress);
-                const gBot = lerpCol([213, 229, 168], [213, 223, 158], sunProgress);
+                drawHillLayer(horizonY + 2,  H * 0.065, 3.2, 0.4 + tClock * 0.015, `rgb(${h1.join(',')})`, headX * 0.12);
+                drawHillLayer(horizonY + 6,  H * 0.052, 4.4, 1.8 + tClock * 0.022, `rgb(${h2.join(',')})`, headX * 0.22);
+                drawHillLayer(horizonY + 9,  H * 0.038, 5.6, 3.1 + tClock * 0.030, `rgb(${h3.join(',')})`, headX * 0.34);
+                drawHillLayer(horizonY + 11, H * 0.024, 6.8, 0.9 + tClock * 0.040, `rgb(${h4.join(',')})`, headX * 0.48);
+
+                // Suelo de pradera de viñedos
+                const gTop = mixTriCol([233, 242, 206], [241, 226, 208], [38, 66, 88]);
+                const gBot = mixTriCol([213, 229, 168], [213, 223, 158], [30, 68, 58]);
                 const gGrad = ctx.createLinearGradient(0, horizonY, 0, H);
                 gGrad.addColorStop(0, `rgb(${sh.join(',')})`);
                 gGrad.addColorStop(0.18, `rgb(${gTop.join(',')})`);
@@ -2149,6 +2261,7 @@
                 const projX = (wx, z) => cx + wx * (focal / z);
                 const projY = (wh, z) => horizonY + (camH - wh) * (focal / z);
 
+                // Río central con reflejo celeste/lunar
                 ctx.beginPath();
                 for (let z = Z_MAX; z >= Z_MIN; z -= 6) {
                     const rx = 0.25 + Math.sin(z * 0.045 + tClock * 0.25) * 0.32;
@@ -2161,12 +2274,16 @@
                     ctx.lineTo(xR, yG);
                 }
                 ctx.closePath();
-                ctx.fillStyle = sunProgress > 0.4 ? 'rgba(188, 174, 214, 0.52)' : 'rgba(130, 206, 224, 0.58)';
+                const riverCol = mixTriCol([130, 206, 224], [188, 174, 214], [122, 168, 224]);
+                ctx.fillStyle = `rgba(${riverCol.join(',')}, ${(0.58 - nightMix * 0.06).toFixed(2)})`;
                 ctx.fill();
-                ctx.strokeStyle = 'rgba(255, 253, 245, 0.65)';
+                ctx.strokeStyle = nightMix > 0.45 ? 'rgba(251, 247, 231, 0.42)' : 'rgba(255, 253, 245, 0.65)';
                 ctx.lineWidth = 1.2;
                 ctx.stroke();
 
+                // Surcos de tierra y alambre de espaldera
+                const furrowCol = mixTriCol([182, 134, 106], [164, 112, 92], [58, 72, 96]);
+                const wireCol   = mixTriCol([87, 142, 3],    [87, 142, 3],   [128, 178, 86]);
                 for (let li = 0; li < VINE_LANES.length; li++) {
                     const laneX = VINE_LANES[li];
                     const xFarL = projX(laneX - 0.42, Z_MAX), xFarR = projX(laneX + 0.42, Z_MAX);
@@ -2174,7 +2291,7 @@
                     const xNearL = projX(laneX - 0.42, Z_MIN), xNearR = projX(laneX + 0.42, Z_MIN);
                     const yNear = projY(0, Z_MIN);
 
-                    ctx.fillStyle = sunProgress > 0.4 ? 'rgba(164, 112, 92, 0.18)' : 'rgba(182, 134, 106, 0.16)';
+                    ctx.fillStyle = `rgba(${furrowCol.join(',')}, 0.17)`;
                     ctx.beginPath();
                     ctx.moveTo(xFarL, yFar);
                     ctx.lineTo(xFarR, yFar);
@@ -2183,13 +2300,20 @@
                     ctx.closePath();
                     ctx.fill();
 
-                    ctx.strokeStyle = 'rgba(87, 142, 3, 0.22)';
+                    ctx.strokeStyle = `rgba(${wireCol.join(',')}, 0.24)`;
                     ctx.lineWidth = 1;
                     ctx.beginPath();
                     ctx.moveTo(projX(laneX, Z_MAX), projY(0.45, Z_MAX));
                     ctx.lineTo(projX(laneX, Z_MIN), projY(0.45, Z_MIN));
                     ctx.stroke();
                 }
+
+                // Hileras de vides 3D con hojas verde vid y racimos uva
+                const postCol  = mixTriCol([122, 86, 62],  [102, 66, 72],  [68, 78, 96]);
+                const leafDeep = mixTriCol([87, 142, 3],   [77, 126, 4],   [54, 106, 36]);
+                const leafTop  = mixTriCol([158, 197, 16], [140, 182, 18], [94, 146, 48]);
+                const grapeLit = mixTriCol([146, 28, 150], [146, 28, 150], [166, 54, 172]);
+                const grapeShd = mixTriCol([89, 2, 92],    [89, 2, 92],    [102, 22, 114]);
 
                 const travel = (tClock * 5.2) % ROW_STEP;
                 const stepsCount = Math.floor((Z_MAX - Z_MIN) / ROW_STEP);
@@ -2216,32 +2340,32 @@
                         const sx = projX(laneX, z);
                         if (sx < -bushR * 2 || sx > W + bushR * 2) continue;
 
-                        ctx.strokeStyle = sunProgress > 0.4 ? 'rgba(102, 66, 72, 0.45)' : 'rgba(122, 86, 62, 0.45)';
+                        ctx.strokeStyle = `rgba(${postCol.join(',')}, 0.45)`;
                         ctx.lineWidth = Math.max(1, 0.06 * sc);
                         ctx.beginPath();
                         ctx.moveTo(sx, yBase);
                         ctx.lineTo(sx, yBase - postH);
                         ctx.stroke();
 
-                        ctx.fillStyle = sunProgress > 0.4 ? '#4D7E04' : '#578E03';
+                        ctx.fillStyle = `rgb(${leafDeep.join(',')})`;
                         ctx.beginPath();
                         ctx.ellipse(sx, yBase - bushH * 0.55, bushR, bushH * 0.62, 0, 0, Math.PI * 2);
                         ctx.fill();
 
-                        ctx.fillStyle = sunProgress > 0.4 ? '#8CB612' : '#9EC510';
+                        ctx.fillStyle = `rgb(${leafTop.join(',')})`;
                         ctx.beginPath();
                         ctx.ellipse(sx - bushR * 0.14, yBase - bushH * 0.78, bushR * 0.72, bushH * 0.44, 0, 0, Math.PI * 2);
                         ctx.fill();
 
                         if (bushR > 5 && ((li + s) % 2 === 0)) {
                             const gr = Math.max(1.6, bushR * 0.16);
-                            ctx.fillStyle = '#921C96';
+                            ctx.fillStyle = `rgb(${grapeLit.join(',')})`;
                             ctx.beginPath();
                             ctx.arc(sx + bushR * 0.25, yBase - bushH * 0.46, gr, 0, Math.PI * 2);
                             ctx.arc(sx - bushR * 0.22, yBase - bushH * 0.36, gr * 0.85, 0, Math.PI * 2);
                             ctx.fill();
 
-                            ctx.fillStyle = '#59025C';
+                            ctx.fillStyle = `rgb(${grapeShd.join(',')})`;
                             ctx.beginPath();
                             ctx.arc(sx + bushR * 0.26, yBase - bushH * 0.35, gr * 0.65, 0, Math.PI * 2);
                             ctx.fill();
@@ -2251,9 +2375,10 @@
 
                 ctx.globalAlpha = 1;
 
+                // Bruma suave del horizonte
                 const hazeGrad = ctx.createLinearGradient(0, horizonY - 12, 0, horizonY + H * 0.16);
                 hazeGrad.addColorStop(0, `rgb(${sh.join(',')})`);
-                hazeGrad.addColorStop(1, 'rgba(251, 247, 231, 0)');
+                hazeGrad.addColorStop(1, `rgba(${sh.join(',')}, 0)`);
                 ctx.fillStyle = hazeGrad;
                 ctx.fillRect(0, horizonY - 12, W, H * 0.18);
             }
@@ -2290,8 +2415,15 @@
                         }
                     }, { passive: true });
                 },
-                setSun(val) {
-                    targetSunProgress = val;
+                setAtmosphere(sunPos, nextSunset, nextNight, instant = false) {
+                    targetSunProgress = sunPos;
+                    targetSunsetMix = nextSunset;
+                    targetNightMix = nextNight;
+                    if (instant) {
+                        sunProgress = sunPos;
+                        sunsetMix = nextSunset;
+                        nightMix = nextNight;
+                    }
                 },
                 setPaused(val) {
                     paused = val;
@@ -2299,15 +2431,97 @@
             };
         })();
 
-        function toggleVineyardMood() {
-            triggerHaptic();
-            const cur = document.body.getAttribute('data-mood') || 'day';
-            const next = cur === 'day' ? 'sunset' : 'day';
-            document.body.setAttribute('data-mood', next);
-            Vineyard3D.setSun(next === 'sunset' ? 0.72 : 0.15);
-            updateMoodButtonLabel(next);
-            try { localStorage.setItem('dj_mood', next); } catch(e) {}
-        }
+        /* =========================================================
+           1B. RELOJ SOLAR ASTRONÓMICO EN VIVO: TRIPLE FRONTERA
+               Puerto Iguazú / Foz do Iguaçu / Ciudad del Este
+               Lat: -25.5991° | Lon: -54.5735° | Huso horario: UTC-3
+           ========================================================= */
+        const SolarLive = (() => {
+            const LAT = -25.5991;
+            const LON = -54.5735;
+            const TZ  = -3;
+
+            const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
+
+            function computeSolarState(date = new Date()) {
+                const utcMs = date.getTime() + date.getTimezoneOffset() * 60000;
+                const local = new Date(utcMs + TZ * 3600000);
+
+                const startOfYear = new Date(local.getFullYear(), 0, 1);
+                const dayOfYear = Math.floor((local - startOfYear) / 86400000) + 1;
+                const hourLocal = local.getHours() + local.getMinutes() / 60 + local.getSeconds() / 3600;
+
+                const gamma = (2 * Math.PI / 365) * (dayOfYear - 1 + (hourLocal - 12) / 24);
+                const eqtime = 229.18 * (
+                    0.000075
+                    + 0.001868 * Math.cos(gamma)
+                    - 0.032077 * Math.sin(gamma)
+                    - 0.014615 * Math.cos(2 * gamma)
+                    - 0.040849 * Math.sin(2 * gamma)
+                );
+                const decl = 0.006918
+                    - 0.399912 * Math.cos(gamma)
+                    + 0.070257 * Math.sin(gamma)
+                    - 0.006758 * Math.cos(2 * gamma)
+                    + 0.000907 * Math.sin(2 * gamma)
+                    - 0.002697 * Math.cos(3 * gamma)
+                    + 0.001480 * Math.sin(3 * gamma);
+
+                const tst = hourLocal * 60 + eqtime + 4 * LON - 60 * TZ;
+                const haDeg = tst / 4 - 180;
+                const haRad = haDeg * Math.PI / 180;
+                const latRad = LAT * Math.PI / 180;
+
+                const cosZenith = clamp(
+                    Math.sin(latRad) * Math.sin(decl) + Math.cos(latRad) * Math.cos(decl) * Math.cos(haRad),
+                    -1,
+                    1
+                );
+                const elevDeg = 90 - (Math.acos(cosZenith) * 180 / Math.PI);
+
+                // Posición horizontal del sol (Este -> Cenit -> Oeste)
+                const sunPos = clamp((haDeg + 105) / 210, 0.05, 0.95);
+
+                let sunsetMix = 0;
+                let nightMix  = 0;
+
+                if (elevDeg >= 22) {
+                    sunsetMix = 0;
+                    nightMix  = 0;
+                } else if (elevDeg >= 0) {
+                    const lowFactor = (22 - elevDeg) / 22; // 0 a 1 conforme baja el sol
+                    // Mañana (haDeg < 0): amanecer suave; Tarde (haDeg >= 0): atardecer cálido uva/ámbar
+                    sunsetMix = haDeg >= 0 ? Math.pow(lowFactor, 0.85) : lowFactor * 0.55;
+                    nightMix  = 0;
+                } else if (elevDeg > -7.5) {
+                    // Crepúsculo civil/náutico hacia noche azulada marino
+                    const duskT = (-elevDeg) / 7.5;
+                    sunsetMix = (haDeg >= 0 ? 1.0 : 0.55) * (1 - duskT);
+                    nightMix  = duskT;
+                } else {
+                    sunsetMix = 0;
+                    nightMix  = 1;
+                }
+
+                let mood = 'day';
+                if (nightMix >= 0.52) mood = 'night';
+                else if (sunsetMix >= 0.40) mood = 'sunset';
+
+                return { sunPos, sunsetMix, nightMix, mood };
+            }
+
+            function update(instant = false) {
+                const st = computeSolarState();
+                document.body.setAttribute('data-mood', st.mood);
+                const themeMeta = document.querySelector('meta[name="theme-color"]');
+                if (themeMeta) {
+                    themeMeta.setAttribute('content', st.mood === 'night' ? '#162A4C' : '#FBF7E7');
+                }
+                Vineyard3D.setAtmosphere(st.sunPos, st.sunsetMix, st.nightMix, instant);
+            }
+
+            return { update };
+        })();
 
         /* =========================================================
            2. MOTOR I18N LITERAL (ES / PT / EN)
@@ -2316,8 +2530,6 @@
 
         const I18N = {
             es: {
-                mood_day: 'Día',
-                mood_sunset: 'Atardecer',
                 music_label_on: '🔊 Música',
                 music_label_off: '🔈 Música',
                 music_empty: 'Sube .mp3 a /music',
@@ -2422,8 +2634,6 @@
                 ]
             },
             pt: {
-                mood_day: 'Dia',
-                mood_sunset: 'Pôr do Sol',
                 music_label_on: '🔊 Música',
                 music_label_off: '🔈 Música',
                 music_empty: 'Envie .mp3 para /music',
@@ -2528,8 +2738,6 @@
                 ]
             },
             en: {
-                mood_day: 'Day',
-                mood_sunset: 'Sunset',
                 music_label_on: '🔊 Music',
                 music_label_off: '🔈 Music',
                 music_empty: 'Upload .mp3 to /music',
@@ -2635,12 +2843,6 @@
             }
         };
 
-        function updateMoodButtonLabel(mood) {
-            const dict = I18N[currentLang] || I18N.es;
-            const lbl = document.getElementById('moodLabel');
-            if (lbl) lbl.textContent = mood === 'day' ? dict.mood_day : dict.mood_sunset;
-        }
-
         function setLanguage(lang) {
             if (!I18N[lang]) lang = 'es';
             currentLang = lang;
@@ -2661,9 +2863,6 @@
                 const key = el.getAttribute('data-i18n-html');
                 if (dict[key]) el.innerHTML = dict[key];
             });
-
-            const currentMood = document.body.getAttribute('data-mood') || 'day';
-            updateMoodButtonLabel(currentMood);
 
             const sw = document.getElementById('musicSwitch');
             const isPlaying = sw && sw.classList.contains('active');
@@ -3035,18 +3234,11 @@
 
         window.addEventListener('DOMContentLoaded', () => {
             if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+            SolarLive.update(true);
             Vineyard3D.init();
+            setInterval(() => SolarLive.update(false), 60000);
             updateLiveHours();
             loadMusicFromRepo();
-
-            try {
-                const savedMood = localStorage.getItem('dj_mood');
-                if (savedMood === 'sunset') {
-                    document.body.setAttribute('data-mood', 'sunset');
-                    Vineyard3D.setSun(0.72);
-                    document.getElementById('moodIcon').textContent = '🌅';
-                }
-            } catch(e) {}
 
             try {
                 const savedLang = localStorage.getItem('dj_lang') || 'es';
