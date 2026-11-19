@@ -181,7 +181,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 8px;
+            gap: 6px;
             flex-wrap: wrap;
         }
 
@@ -215,6 +215,50 @@
 
         .pill-control:active {
             transform: scale(0.96);
+        }
+
+        /* SELECTOR DISCRETO Y COMPACTO DE IDIOMA */
+        .lang-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+            background: var(--ivory-surface);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1.5px solid var(--border-vine);
+            border-radius: 999px;
+            padding: 4px 5px;
+            box-shadow: 0 4px 12px rgba(13, 9, 19, 0.06);
+        }
+
+        .lang-globe {
+            font-size: 0.68rem;
+            line-height: 1;
+            margin: 0 2px 0 3px;
+            opacity: 0.78;
+        }
+
+        .lang-btn {
+            border: 0;
+            background: transparent;
+            color: var(--ink-muted);
+            font-family: var(--font-mono);
+            font-size: 0.60rem;
+            font-weight: 800;
+            padding: 3px 6px;
+            border-radius: 999px;
+            cursor: pointer;
+            letter-spacing: 0.04em;
+            transition: all 0.2s var(--spring);
+        }
+
+        .lang-btn:hover {
+            color: var(--grape-vivid);
+        }
+
+        .lang-btn.active {
+            background: var(--grape-vivid);
+            color: #FFFFFF;
         }
 
         .music-cluster {
@@ -1567,20 +1611,27 @@
     <!-- MARQUESINA CONTINUA CON DATOS REALES -->
     <div class="top-marquee-bar" aria-label="Información destacada">
         <div class="marquee-track">
-            <span>DESDE 2002 EN PUERTO IGUAZÚ ✦ PRIMERA VINOTECA ESPECIALIZADA ✦ PRECIOS ESPECIALES POR CAJA CERRADA ✦ SHOWROOM CLIMATIZADO ✦</span>
-            <span>DESDE 2002 EN PUERTO IGUAZÚ ✦ PRIMERA VINOTECA ESPECIALIZADA ✦ PRECIOS ESPECIALES POR CAJA CERRADA ✦ SHOWROOM CLIMATIZADO ✦</span>
+            <span data-i18n="marquee">DESDE 2002 EN PUERTO IGUAZÚ ✦ PRIMERA VINOTECA ESPECIALIZADA ✦ PRECIOS ESPECIALES POR CAJA CERRADA ✦ SHOWROOM CLIMATIZADO ✦</span>
+            <span data-i18n="marquee">DESDE 2002 EN PUERTO IGUAZÚ ✦ PRIMERA VINOTECA ESPECIALIZADA ✦ PRECIOS ESPECIALES POR CAJA CERRADA ✦ SHOWROOM CLIMATIZADO ✦</span>
         </div>
     </div>
 
     <!-- CONTENEDOR PRINCIPAL -->
     <main class="hub-shell">
 
-        <!-- 1. BARRA SUPERIOR: ATMÓSFERA + MÚSICA DESDE /music -->
-        <nav class="utility-dock" aria-label="Controles de ambiente y música">
+        <!-- 1. BARRA SUPERIOR: ATMÓSFERA + IDIOMA + MÚSICA DESDE /music -->
+        <nav class="utility-dock" aria-label="Controles de ambiente, idioma y música">
             <button type="button" class="pill-control" id="moodToggleBtn" onclick="toggleVineyardMood()" title="Cambiar luz del viñedo">
                 <span id="moodIcon">🍇</span>
                 <span id="moodLabel">Día</span>
             </button>
+
+            <div class="lang-pill" role="group" aria-label="Idioma / Language">
+                <span class="lang-globe" aria-hidden="true">🌐</span>
+                <button type="button" class="lang-btn active" data-lang="es" onclick="setLanguage('es')">ES</button>
+                <button type="button" class="lang-btn" data-lang="pt" onclick="setLanguage('pt')">PT</button>
+                <button type="button" class="lang-btn" data-lang="en" onclick="setLanguage('en')">EN</button>
+            </div>
 
             <div class="music-cluster">
                 <div class="pill-control" id="musicSwitch" onclick="toggleMusic()" role="button" tabindex="0" aria-label="Reproducir música">
@@ -1608,10 +1659,10 @@
             </div>
 
             <h1 class="brand-title">La Vinoteca de Don Jorge</h1>
-            <span class="brand-category-tag">Tienda de vinos, cervezas y licores</span>
+            <span class="brand-category-tag" data-i18n="cat_tag">Tienda de vinos, cervezas y licores</span>
 
             <div class="brand-bio-card">
-                <p class="brand-bio-quote">
+                <p class="brand-bio-quote" data-i18n="bio_quote">
                     “La Vinoteca de Don Jorge, la casa más completa para el aficionado al vino en las 3 Fronteras.”
                 </p>
             </div>
@@ -1620,11 +1671,11 @@
             <div class="reputation-strip">
                 <a href="https://maps.google.com/?q=La+Vinoteca+de+Don+Jorge,+Av.+Rep%C3%BAblica+Argentina+188,+Puerto+Iguaz%C3%BA" target="_blank" rel="noopener noreferrer" class="rep-badge">
                     <span class="rep-star">★</span>
-                    <span>4.5 Google · 1.446 opiniones</span>
+                    <span data-i18n="rep_google">4.5 Google · 1.446 opiniones</span>
                 </a>
                 <a href="https://www.tripadvisor.com.ar/Attraction_Review-g312806-d6602991-Reviews-La_Vinoteca_de_Don_Jorge-Puerto_Iguazu_Province_of_Misiones_Litoral.html" target="_blank" rel="noopener noreferrer" class="rep-badge">
                     <span class="rep-star">★</span>
-                    <span>4.2 Tripadvisor · N.º 1 en Iguazú</span>
+                    <span data-i18n="rep_trip">4.2 Tripadvisor · N.º 1 en Iguazú</span>
                 </a>
             </div>
 
@@ -1656,9 +1707,9 @@
         <!-- 3. CTA HERO PRINCIPAL + TELÉFONO DIRECTO -->
         <a href="https://www.vinotecadonjorge.com.ar" target="_blank" rel="noopener noreferrer" class="hero-cta-primary" onclick="triggerHaptic()">
             <div class="hero-cta-info">
-                <span class="hero-eyebrow">Sitio Web Oficial</span>
+                <span class="hero-eyebrow" data-i18n="hero_eyebrow">Sitio Web Oficial</span>
                 <h2 class="hero-headline">vinotecadonjorge.com.ar</h2>
-                <span class="hero-sub">Vinos, cervezas, licores y delicatessen · Puerto Iguazú</span>
+                <span class="hero-sub" data-i18n="hero_sub">Vinos, cervezas, licores y delicatessen · Puerto Iguazú</span>
             </div>
             <div class="hero-circle-arrow">↗</div>
         </a>
@@ -1672,9 +1723,9 @@
             <div class="card-text-col">
                 <div class="card-title-row">
                     <span class="card-main-label">+54 3757-424283</span>
-                    <span class="card-mono-tag">Teléfono</span>
+                    <span class="card-mono-tag" data-i18n="phone_tag">Teléfono</span>
                 </div>
-                <span class="card-sub-label">Atendemos con horario extendido · Av. Rep. Argentina 188</span>
+                <span class="card-sub-label" data-i18n="phone_sub">Atendemos con horario extendido · Av. Rep. Argentina 188</span>
             </div>
             <span class="arrow-chip">↗</span>
         </a>
@@ -1684,48 +1735,48 @@
 
             <a href="https://www.instagram.com/lavinotecadedonjorge/" target="_blank" rel="noopener noreferrer" class="bento-card arch-tl" onclick="triggerHaptic()">
                 <div class="bento-top">
-                    <span class="bento-index">01 / SHOWROOM</span>
+                    <span class="bento-index" data-i18n="b1_idx">01 / SHOWROOM</span>
                     <span class="bento-arrow">↗</span>
                 </div>
                 <div>
-                    <h3 class="bento-title">Caja Cerrada</h3>
-                    <span class="bento-sub">Precios especiales</span>
-                    <p class="bento-desc">Espacio climatizado con exclusividades en vino, licor, cerveza y delicatessen.</p>
+                    <h3 class="bento-title" data-i18n="b1_title">Caja Cerrada</h3>
+                    <span class="bento-sub" data-i18n="b1_sub">Precios especiales</span>
+                    <p class="bento-desc" data-i18n="b1_desc">Espacio climatizado con exclusividades en vino, licor, cerveza y delicatessen.</p>
                 </div>
             </a>
 
             <div class="bento-card arch-tr" onclick="openStoryModal(); triggerHaptic();" role="button" tabindex="0">
                 <div class="bento-top">
-                    <span class="bento-index">02 / DESDE 2002</span>
+                    <span class="bento-index" data-i18n="b2_idx">02 / DESDE 2002</span>
                     <span class="bento-arrow">↗</span>
                 </div>
                 <div>
-                    <h3 class="bento-title">Nuestra Historia</h3>
-                    <span class="bento-sub">De Mendoza a la Frontera</span>
-                    <p class="bento-desc">Primera vinoteca especializada de Puerto Iguazú.</p>
+                    <h3 class="bento-title" data-i18n="b2_title">Nuestra Historia</h3>
+                    <span class="bento-sub" data-i18n="b2_sub">De Mendoza a la Frontera</span>
+                    <p class="bento-desc" data-i18n="b2_desc">Primera vinoteca especializada de Puerto Iguazú.</p>
                 </div>
             </div>
 
             <a href="https://www.instagram.com/lavinotecadedonjorge/" target="_blank" rel="noopener noreferrer" class="bento-card full-span" onclick="triggerHaptic()">
                 <div style="flex:1; min-width:0;">
                     <div class="bento-top" style="margin-bottom:2px;">
-                        <span class="bento-index">INSTAGRAM OFICIAL · 27,4 MIL SEGUIDORES</span>
+                        <span class="bento-index" data-i18n="ig_idx">INSTAGRAM OFICIAL · 27,4 MIL SEGUIDORES</span>
                     </div>
                     <h3 class="bento-title">@lavinotecadedonjorge</h3>
-                    <p class="bento-desc">5.385 publicaciones · Degustaciones, capacitaciones y etiquetas</p>
+                    <p class="bento-desc" data-i18n="ig_desc">5.385 publicaciones · Degustaciones, capacitaciones y etiquetas</p>
                 </div>
                 <span class="bento-arrow" style="font-size:1.25rem;">↗</span>
             </a>
 
             <a href="https://www.tripadvisor.com.ar/Attraction_Review-g312806-d6602991-Reviews-La_Vinoteca_de_Don_Jorge-Puerto_Iguazu_Province_of_Misiones_Litoral.html" target="_blank" rel="noopener noreferrer" class="bento-card arch-bl" onclick="triggerHaptic()">
                 <div class="bento-top">
-                    <span class="bento-index">03 / RESEÑAS</span>
+                    <span class="bento-index" data-i18n="b3_idx">03 / RESEÑAS</span>
                     <span class="bento-arrow">↗</span>
                 </div>
                 <div>
                     <h3 class="bento-title">Tripadvisor</h3>
-                    <span class="bento-sub">N.º 1 en Iguazú</span>
-                    <p class="bento-desc">231 opiniones y 51 fotos en Comida y bebida.</p>
+                    <span class="bento-sub" data-i18n="b3_sub">N.º 1 en Iguazú</span>
+                    <p class="bento-desc" data-i18n="b3_desc">231 opiniones y 51 fotos en Comida y bebida.</p>
                 </div>
             </a>
 
@@ -1735,9 +1786,9 @@
                     <span class="bento-arrow">↗</span>
                 </div>
                 <div>
-                    <h3 class="bento-title">Cómo Llegar</h3>
+                    <h3 class="bento-title" data-i18n="b4_title">Cómo Llegar</h3>
                     <span class="bento-sub">Puerto Iguazú</span>
-                    <p class="bento-desc">Av. República Argentina 188, N3370 Misiones.</p>
+                    <p class="bento-desc" data-i18n="b4_desc">Av. República Argentina 188, N3370 Misiones.</p>
                 </div>
             </a>
 
@@ -1746,17 +1797,17 @@
         <!-- 5. CATEGORÍAS REALES DEL SHOWROOM -->
         <section class="highlights-card">
             <div class="section-head-line">
-                <h3 class="section-serif-title">Propuestas del Showroom</h3>
-                <span class="section-mono-sub">En Av. Rep. Argentina 188</span>
+                <h3 class="section-serif-title" data-i18n="hl_title">Propuestas del Showroom</h3>
+                <span class="section-mono-sub" data-i18n="hl_sub">En Av. Rep. Argentina 188</span>
             </div>
             <div class="chips-wrap">
-                <a href="https://www.instagram.com/lavinotecadedonjorge/" target="_blank" rel="noopener noreferrer" class="highlight-chip">Por unidad</a>
-                <a href="https://www.instagram.com/lavinotecadedonjorge/" target="_blank" rel="noopener noreferrer" class="highlight-chip grape">Kits</a>
-                <a href="https://www.instagram.com/lavinotecadedonjorge/" target="_blank" rel="noopener noreferrer" class="highlight-chip">Licores</a>
-                <a href="https://www.instagram.com/lavinotecadedonjorge/" target="_blank" rel="noopener noreferrer" class="highlight-chip grape">Promociones</a>
-                <a href="https://www.instagram.com/lavinotecadedonjorge/" target="_blank" rel="noopener noreferrer" class="highlight-chip">Espumantes</a>
-                <a href="https://www.instagram.com/lavinotecadedonjorge/" target="_blank" rel="noopener noreferrer" class="highlight-chip grape">Degustaciones</a>
-                <a href="https://www.instagram.com/lavinotecadedonjorge/" target="_blank" rel="noopener noreferrer" class="highlight-chip">Delicatessen</a>
+                <a href="https://www.instagram.com/lavinotecadedonjorge/" target="_blank" rel="noopener noreferrer" class="highlight-chip" data-i18n="chip_unit">Por unidad</a>
+                <a href="https://www.instagram.com/lavinotecadedonjorge/" target="_blank" rel="noopener noreferrer" class="highlight-chip grape" data-i18n="chip_kits">Kits</a>
+                <a href="https://www.instagram.com/lavinotecadedonjorge/" target="_blank" rel="noopener noreferrer" class="highlight-chip" data-i18n="chip_liq">Licores</a>
+                <a href="https://www.instagram.com/lavinotecadedonjorge/" target="_blank" rel="noopener noreferrer" class="highlight-chip grape" data-i18n="chip_promo">Promociones</a>
+                <a href="https://www.instagram.com/lavinotecadedonjorge/" target="_blank" rel="noopener noreferrer" class="highlight-chip" data-i18n="chip_spark">Espumantes</a>
+                <a href="https://www.instagram.com/lavinotecadedonjorge/" target="_blank" rel="noopener noreferrer" class="highlight-chip grape" data-i18n="chip_tast">Degustaciones</a>
+                <a href="https://www.instagram.com/lavinotecadedonjorge/" target="_blank" rel="noopener noreferrer" class="highlight-chip" data-i18n="chip_deli">Delicatessen</a>
             </div>
         </section>
 
@@ -1764,10 +1815,10 @@
         <section class="terroir-card">
             <div>
                 <div class="section-head-line">
-                    <h3 class="section-serif-title">Cada paladar tiene su región</h3>
-                    <span class="section-mono-sub">Curaduría</span>
+                    <h3 class="section-serif-title" data-i18n="reg_head">Cada paladar tiene su región</h3>
+                    <span class="section-mono-sub" data-i18n="reg_sub">Curaduría</span>
                 </div>
-                <p class="terroir-quote">“Primero tenés que conocer tu paladar” — Laureano Giovanini</p>
+                <p class="terroir-quote" data-i18n="reg_quote">“Primero tenés que conocer tu paladar” — Laureano Giovanini</p>
             </div>
 
             <div class="region-tabs" role="tablist" aria-label="Regiones vitivinícolas">
@@ -1791,13 +1842,13 @@
                 onerror="if(!this.dataset.fb){this.dataset.fb=1;this.src='https://raw.githubusercontent.com/linkuniversal/vinotecadedonjorge/main/vinotecapuertadelocalycuadra.webp';}"
             >
             <div class="feature-cover-scrim"></div>
-            <span class="feature-cover-top-pill">Puerto Iguazú · 3 Fronteras</span>
+            <span class="feature-cover-top-pill" data-i18n="cov_pill">Puerto Iguazú · 3 Fronteras</span>
             <div class="feature-cover-footer">
                 <div class="feature-cover-texts">
                     <h3 class="feature-cover-title">La Vinoteca de Don Jorge</h3>
-                    <span class="feature-cover-addr">Av. República Argentina 188 · Desde 2002</span>
+                    <span class="feature-cover-addr" data-i18n="cov_addr">Av. República Argentina 188 · Desde 2002</span>
                 </div>
-                <span class="feature-cover-zoom">Ver foto ↗</span>
+                <span class="feature-cover-zoom" data-i18n="cov_zoom">Ver foto ↗</span>
             </div>
         </article>
 
@@ -1805,8 +1856,8 @@
         <section class="gallery-card">
             <div class="gallery-header">
                 <div>
-                    <h3 class="section-serif-title">Nuestro Showroom &amp; Cava</h3>
-                    <span class="section-mono-sub">Interior, cava y etiquetas · Toca para ampliar</span>
+                    <h3 class="section-serif-title" data-i18n="gal_title">Nuestro Showroom &amp; Cava</h3>
+                    <span class="section-mono-sub" data-i18n="gal_sub">Interior, cava y etiquetas · Toca para ampliar</span>
                 </div>
                 <div class="gallery-nav-btns">
                     <button type="button" class="strip-btn" onclick="scrollGallery(-1)" aria-label="Anterior">‹</button>
@@ -1817,35 +1868,35 @@
             <div class="photo-strip" id="photoStrip">
                 <div class="photo-tile" onclick="openLightbox(1)">
                     <img src="./vinotecapordentro.webp" alt="Interior del showroom climatizado" loading="lazy" onerror="if(!this.dataset.fb){this.dataset.fb=1;this.src='https://raw.githubusercontent.com/linkuniversal/vinotecadedonjorge/main/vinotecapordentro.webp';}">
-                    <span>Showroom climatizado</span>
+                    <span data-i18n="gal_1">Showroom climatizado</span>
                 </div>
                 <div class="photo-tile" onclick="openLightbox(2)">
                     <img src="./vinotecapordentro2.webp" alt="Salón de La Vinoteca de Don Jorge" loading="lazy" onerror="if(!this.dataset.fb){this.dataset.fb=1;this.src='https://raw.githubusercontent.com/linkuniversal/vinotecadedonjorge/main/vinotecapordentro2.webp';}">
-                    <span>Salón Don Jorge</span>
+                    <span data-i18n="gal_2">Salón Don Jorge</span>
                 </div>
                 <div class="photo-tile" onclick="openLightbox(3)">
                     <img src="./vinotecapordentro3.webp" alt="Cava de ladrillo visto y botellas" loading="lazy" onerror="if(!this.dataset.fb){this.dataset.fb=1;this.src='https://raw.githubusercontent.com/linkuniversal/vinotecadedonjorge/main/vinotecapordentro3.webp';}">
-                    <span>La Cava</span>
+                    <span data-i18n="gal_3">La Cava</span>
                 </div>
                 <div class="photo-tile" onclick="openLightbox(4)">
                     <img src="./estanteriasvinos2.webp" alt="Estanterías organizadas por etiqueta" loading="lazy" onerror="if(!this.dataset.fb){this.dataset.fb=1;this.src='https://raw.githubusercontent.com/linkuniversal/vinotecadedonjorge/main/estanteriasvinos2.webp';}">
-                    <span>Estanterías</span>
+                    <span data-i18n="gal_4">Estanterías</span>
                 </div>
                 <div class="photo-tile" onclick="openLightbox(5)">
                     <img src="./vinosestanterias.webp" alt="Selección de vinos argentinos" loading="lazy" onerror="if(!this.dataset.fb){this.dataset.fb=1;this.src='https://raw.githubusercontent.com/linkuniversal/vinotecadedonjorge/main/vinosestanterias.webp';}">
-                    <span>Selección de Bodegas</span>
+                    <span data-i18n="gal_5">Selección de Bodegas</span>
                 </div>
                 <div class="photo-tile" onclick="openLightbox(6)">
                     <img src="./vinosprimerplano.webp" alt="Etiquetas de vinos argentinos" loading="lazy" onerror="if(!this.dataset.fb){this.dataset.fb=1;this.src='https://raw.githubusercontent.com/linkuniversal/vinotecadedonjorge/main/vinosprimerplano.webp';}">
-                    <span>Etiquetas</span>
+                    <span data-i18n="gal_6">Etiquetas</span>
                 </div>
                 <div class="photo-tile" onclick="openLightbox(7)">
                     <img src="./chandonplanomedio.webp" alt="Espumantes y bodegas" loading="lazy" onerror="if(!this.dataset.fb){this.dataset.fb=1;this.src='https://raw.githubusercontent.com/linkuniversal/vinotecadedonjorge/main/chandonplanomedio.webp';}">
-                    <span>Espumantes</span>
+                    <span data-i18n="gal_7">Espumantes</span>
                 </div>
                 <div class="photo-tile" onclick="openLightbox(8)">
                     <img src="./vinoyjamon.webp" alt="Vinos y delicatessen" loading="lazy" onerror="if(!this.dataset.fb){this.dataset.fb=1;this.src='https://raw.githubusercontent.com/linkuniversal/vinotecadedonjorge/main/vinoyjamon.webp';}">
-                    <span>Vinos y Delicatessen</span>
+                    <span data-i18n="gal_8">Vinos y Delicatessen</span>
                 </div>
             </div>
         </section>
@@ -1853,29 +1904,29 @@
         <!-- 9. HORARIOS DE ATENCIÓN EN VIVO -->
         <article class="hours-card">
             <div class="hours-head">
-                <h3 class="section-serif-title">Horario de Atención</h3>
+                <h3 class="section-serif-title" data-i18n="hrs_title">Horario de Atención</h3>
                 <span class="live-status-pill" id="liveStatusPill">Verificando...</span>
             </div>
             <div class="hours-list">
                 <div class="hours-row" id="slot-mon-sat">
-                    <span>Lunes a sábado</span>
+                    <span data-i18n="hrs_monsat">Lunes a sábado</span>
                     <span class="hours-time">08:30 a 22:00h</span>
                 </div>
                 <div class="hours-row" id="slot-sun">
-                    <span>Domingo</span>
+                    <span data-i18n="hrs_sun">Domingo</span>
                     <span class="hours-time">09:00 a 13:00h · 16:00 a 20:00h</span>
                 </div>
-                <span class="hours-note">*Hora de Argentina · En días feriados el horario puede variar.</span>
+                <span class="hours-note" data-i18n="hrs_note">*Hora de Argentina · En días feriados el horario puede variar.</span>
             </div>
         </article>
 
         <!-- 10. MAPA UBICACIÓN EN PUERTO IGUAZÚ -->
         <section class="map-card">
             <div class="section-head-line">
-                <h3 class="section-serif-title">Puerto Iguazú · 3 Fronteras</h3>
+                <h3 class="section-serif-title" data-i18n="map_title">Puerto Iguazú · 3 Fronteras</h3>
                 <span class="section-mono-sub">N3370 Misiones</span>
             </div>
-            <p class="map-address">Av. República Argentina 188 · Puerto Iguazú, Misiones, Argentina</p>
+            <p class="map-address" data-i18n="map_addr">Av. República Argentina 188 · Puerto Iguazú, Misiones, Argentina</p>
             <div class="map-frame-wrap">
                 <iframe
                     title="Mapa de La Vinoteca de Don Jorge"
@@ -1886,8 +1937,8 @@
                 </iframe>
             </div>
             <a href="https://maps.google.com/?q=La+Vinoteca+de+Don+Jorge,+Av.+Rep%C3%BAblica+Argentina+188,+Puerto+Iguaz%C3%BA" target="_blank" rel="noopener noreferrer" class="map-cta-bar" onclick="triggerHaptic()">
-                <span>Abrir ubicación en Google Maps</span>
-                <span>Cómo llegar ↗</span>
+                <span data-i18n="map_open">Abrir ubicación en Google Maps</span>
+                <span data-i18n="map_go">Cómo llegar ↗</span>
             </a>
         </section>
 
@@ -1896,48 +1947,51 @@
             <div class="footer-brand-badge">
                 <span>LA VINOTECA DE DON JORGE</span>
                 <span style="color: var(--vine-green);">✦</span>
-                <span>DESDE 2002</span>
+                <span data-i18n="ft_since">DESDE 2002</span>
             </div>
-            <p class="footer-legal">
+            <p class="footer-legal" data-i18n-html="ft_legal_html">
                 Av. República Argentina 188 · N3370 Puerto Iguazú, Misiones<br>
                 Tel. +54 3757-424283 · @lavinotecadedonjorge
             </p>
         </footer>
 
     </main>
-
-    <!-- MODAL EDITORIAL: NUESTRA HISTORIA (DESDE 2002) -->
+<!-- ==========================================================================
+         MODAL EDITORIAL: NUESTRA HISTORIA (DESDE 2002)
+         ========================================================================== -->
     <div class="modal-backdrop" id="storyModal" onclick="closeStoryModal(event)">
         <div class="story-modal-card" onclick="event.stopPropagation()">
             <div class="modal-head">
-                <h3>De Mendoza a la Frontera · Desde 2002</h3>
+                <h3 data-i18n="modal_title">De Mendoza a la Frontera · Desde 2002</h3>
                 <button type="button" class="btn-modal-close" onclick="closeStoryModal(event)" aria-label="Cerrar">✕</button>
             </div>
             <div class="story-scroll">
-                <span class="story-kicker">El origen · 2002 · Reportaje 100 Fronteiras</span>
-                <p class="story-paragraph">
+                <span class="story-kicker" data-i18n="modal_kicker">El origen · 2002 · Reportaje 100 Fronteiras</span>
+                <p class="story-paragraph" data-i18n-html="modal_p1">
                     En 2002, cuando el vino en Puerto Iguazú todavía se encontraba en ferias sin estructura, <strong>Jorge</strong> (<em>in memoriam</em>) y <strong>María Luisa Salazar</strong> fueron hasta Mendoza para conocer de cerca aquel universo y abrieron la <strong>primera vinoteca especializada de la ciudad</strong>. Poco después, su hijo <strong>Laureano Giovanini</strong> se sumó a la operación.
                 </p>
 
                 <div class="story-quote-box">
-                    <p class="story-quote-text">
+                    <p class="story-quote-text" data-i18n="modal_quote">
                         “Fue un mundo enorme que se abrió para nosotros. Sigo diciendo que fuimos la primera, y la mejor, vinoteca de Puerto Iguazú. El espacio climatizado, las botellas bien organizadas y la atención atenta cambiaron el estándar de la ciudad.”
                     </p>
-                    <span class="story-quote-author">— María Luisa Salazar · Cofundadora</span>
+                    <span class="story-quote-author" data-i18n="modal_author">— María Luisa Salazar · Cofundadora</span>
                 </div>
 
-                <div class="story-stat-pill">
+                <div class="story-stat-pill" data-i18n="modal_pill">
                     De pionera en 2002 a nombre consolidado en la frontera: hoy, el 98% de los clientes de La Vinoteca de Don Jorge son brasileños, y muchos salen sabiendo más sobre su propio paladar que cuando entraron.
                 </div>
 
-                <p class="story-paragraph">
+                <p class="story-paragraph" data-i18n-html="modal_p2">
                     “El Malbec sigue protagonista, pero la elección del vino comienza por el gusto de quien bebe.” — <strong>Laureano Giovanini</strong>.
                 </p>
             </div>
         </div>
     </div>
 
-    <!-- LIGHTBOX FULLSCREEN -->
+    <!-- ==========================================================================
+         LIGHTBOX FULLSCREEN
+         ========================================================================== -->
     <div class="modal-backdrop" id="galleryLightbox" onclick="closeLightbox(event)">
         <div class="lightbox-card" onclick="event.stopPropagation()">
             <div class="modal-head">
@@ -1956,8 +2010,9 @@
     <!-- ==========================================================================
          MOTORES JAVASCRIPT:
          1. MOTOR 3D VECTORIAL HD DE VIÑEDOS CON CICLO SOLAR DINÁMICO ORBITAL
-         2. MÚSICA DESDE /music DE GITHUB
-         3. GUÍA, LIGHTBOX, MODAL HISTORIA Y ESTADO EN VIVO
+         2. MOTOR I18N (ES / PT / EN) LITERAL, HUMANO Y PERSISTENTE
+         3. MÚSICA DESDE /music DE GITHUB
+         4. GUÍA, LIGHTBOX, MODAL HISTORIA Y ESTADO EN VIVO
          ========================================================================== -->
     <script>
         function triggerHaptic() {
@@ -1978,8 +2033,7 @@
             let tClock = 0, lastTs = 0, accum = 0;
             let headX = 0, headY = 0, targetHeadX = 0, targetHeadY = 0;
 
-            // Progreso orbital del sol (0 a 1 = Día completo, manejado por interpolación suave)
-            let sunProgress = 0.15; // 0.15 = Día, 0.65 = Atardecer / Noche
+            let sunProgress = 0.15;
             let targetSunProgress = 0.15;
 
             const VINE_LANES = [-6.4, -4.7, -3.1, -1.65, 1.65, 3.1, 4.7, 6.4];
@@ -2013,7 +2067,6 @@
                 ctx.fill();
             }
 
-            // Interpolador lineal de color RGB para transición orgánica entre sol y atardecer
             function lerpCol(c1, c2, t) {
                 return [
                     Math.round(c1[0] + (c2[0] - c1[0]) * t),
@@ -2027,7 +2080,6 @@
                 headX += (targetHeadX - headX) * Math.min(1, dt * 3.5);
                 headY += (targetHeadY - headY) * Math.min(1, dt * 3.5);
 
-                // Interpolación suave (lerp) hacia el estado solar seleccionado
                 sunProgress += (targetSunProgress - sunProgress) * Math.min(1, dt * 2.2);
 
                 const horizonY = H * 0.34 + headY * 14;
@@ -2035,7 +2087,6 @@
                 const camH = 3.2;
                 const cx = W * 0.5 + headX * 26;
 
-                // Paletas dinámicas mezcladas matemáticamente por sunProgress
                 const skyTopDay = [237, 245, 215], skyTopSet = [241, 212, 234];
                 const skyMidDay = [251, 247, 231], skyMidSet = [252, 230, 216];
                 const skyHorDay = [255, 253, 245], skyHorSet = [255, 245, 232];
@@ -2044,7 +2095,6 @@
                 const sm = lerpCol(skyMidDay, skyMidSet, sunProgress);
                 const sh = lerpCol(skyHorDay, skyHorSet, sunProgress);
 
-                // 1. Cielo orbital degradado en vivo
                 const skyGrad = ctx.createLinearGradient(0, 0, 0, horizonY + 12);
                 skyGrad.addColorStop(0, `rgb(${st.join(',')})`);
                 skyGrad.addColorStop(0.55, `rgb(${sm.join(',')})`);
@@ -2052,7 +2102,6 @@
                 ctx.fillStyle = skyGrad;
                 ctx.fillRect(0, 0, W, horizonY + 14);
 
-                // Órbita real del Sol cruzando el cielo en arco parabólico
                 const sunAngle = sunProgress * Math.PI;
                 const sunX = W * 0.25 + Math.sin(sunAngle) * (W * 0.5) - headX * 10;
                 const sunY = Math.max(24, horizonY * 0.9 - Math.sin(sunAngle) * (horizonY * 0.65));
@@ -2070,7 +2119,6 @@
                 ctx.arc(sunX, sunY, sunRad, 0, Math.PI * 2);
                 ctx.fill();
 
-                // Nubes suaves a la deriva
                 ctx.fillStyle = sunProgress > 0.4 ? 'rgba(255, 244, 240, 0.70)' : 'rgba(255, 255, 255, 0.72)';
                 for (let i = 0; i < 4; i++) {
                     const cloudW = W * (0.20 + (i % 2) * 0.08);
@@ -2083,14 +2131,12 @@
                     ctx.fill();
                 }
 
-                // 2. Colinas con tono dinámico
                 const hillBase = lerpCol([223, 236, 200], [232, 203, 225], sunProgress);
                 drawHillLayer(horizonY + 2,  H * 0.065, 3.2, 0.4 + tClock * 0.015, `rgb(${hillBase.join(',')})`, headX * 0.12);
                 drawHillLayer(horizonY + 6,  H * 0.052, 4.4, 1.8 + tClock * 0.022, `rgb(${lerpCol([205, 224, 174], [214, 185, 209], sunProgress).join(',')})`, headX * 0.22);
                 drawHillLayer(horizonY + 9,  H * 0.038, 5.6, 3.1 + tClock * 0.030, `rgb(${lerpCol([182, 209, 136], [191, 168, 184], sunProgress).join(',')})`, headX * 0.34);
                 drawHillLayer(horizonY + 11, H * 0.024, 6.8, 0.9 + tClock * 0.040, `rgb(${lerpCol([155, 192, 94], [143, 156, 76], sunProgress).join(',')})`, headX * 0.48);
 
-                // 3. Suelo del valle
                 const gTop = lerpCol([233, 242, 206], [241, 226, 208], sunProgress);
                 const gBot = lerpCol([213, 229, 168], [213, 223, 158], sunProgress);
                 const gGrad = ctx.createLinearGradient(0, horizonY, 0, H);
@@ -2103,7 +2149,6 @@
                 const projX = (wx, z) => cx + wx * (focal / z);
                 const projY = (wh, z) => horizonY + (camH - wh) * (focal / z);
 
-                // 4. Franja del río
                 ctx.beginPath();
                 for (let z = Z_MAX; z >= Z_MIN; z -= 6) {
                     const rx = 0.25 + Math.sin(z * 0.045 + tClock * 0.25) * 0.32;
@@ -2122,7 +2167,6 @@
                 ctx.lineWidth = 1.2;
                 ctx.stroke();
 
-                // 5. Surcos de vides en perspectiva
                 for (let li = 0; li < VINE_LANES.length; li++) {
                     const laneX = VINE_LANES[li];
                     const xFarL = projX(laneX - 0.42, Z_MAX), xFarR = projX(laneX + 0.42, Z_MAX);
@@ -2147,7 +2191,6 @@
                     ctx.stroke();
                 }
 
-                // 6. Plantas de vid y uvas
                 const travel = (tClock * 5.2) % ROW_STEP;
                 const stepsCount = Math.floor((Z_MAX - Z_MIN) / ROW_STEP);
 
@@ -2208,7 +2251,6 @@
 
                 ctx.globalAlpha = 1;
 
-                // 7. Bruma sedosa del horizonte
                 const hazeGrad = ctx.createLinearGradient(0, horizonY - 12, 0, horizonY + H * 0.16);
                 hazeGrad.addColorStop(0, `rgb(${sh.join(',')})`);
                 hazeGrad.addColorStop(1, 'rgba(251, 247, 231, 0)');
@@ -2262,17 +2304,388 @@
             const cur = document.body.getAttribute('data-mood') || 'day';
             const next = cur === 'day' ? 'sunset' : 'day';
             document.body.setAttribute('data-mood', next);
-            
-            // Órbita solar dinámica gradual
             Vineyard3D.setSun(next === 'sunset' ? 0.72 : 0.15);
-
-            document.getElementById('moodIcon').textContent = next === 'day' ? '🍇' : '🌅';
-            document.getElementById('moodLabel').textContent = next === 'day' ? 'Día' : 'Atardecer';
+            updateMoodButtonLabel(next);
             try { localStorage.setItem('dj_mood', next); } catch(e) {}
         }
 
         /* =========================================================
-           2. MOTOR DE MÚSICA AUTO-DETECTADA EN /music (GITHUB API, SIN SHEETS)
+           2. MOTOR I18N LITERAL (ES / PT / EN)
+           ========================================================= */
+        let currentLang = 'es';
+
+        const I18N = {
+            es: {
+                mood_day: 'Día',
+                mood_sunset: 'Atardecer',
+                music_label_on: '🔊 Música',
+                music_label_off: '🔈 Música',
+                music_empty: 'Sube .mp3 a /music',
+                marquee: 'DESDE 2002 EN PUERTO IGUAZÚ ✦ PRIMERA VINOTECA ESPECIALIZADA ✦ PRECIOS ESPECIALES POR CAJA CERRADA ✦ SHOWROOM CLIMATIZADO ✦',
+                cat_tag: 'Tienda de vinos, cervezas y licores',
+                bio_quote: '“La Vinoteca de Don Jorge, la casa más completa para el aficionado al vino en las 3 Fronteras.”',
+                rep_google: '4.5 Google · 1.446 opiniones',
+                rep_trip: '4.2 Tripadvisor · N.º 1 en Iguazú',
+                hero_eyebrow: 'Sitio Web Oficial',
+                hero_sub: 'Vinos, cervezas, licores y delicatessen · Puerto Iguazú',
+                phone_tag: 'Teléfono',
+                phone_sub: 'Atendemos con horario extendido · Av. Rep. Argentina 188',
+                b1_idx: '01 / SHOWROOM',
+                b1_title: 'Caja Cerrada',
+                b1_sub: 'Precios especiales',
+                b1_desc: 'Espacio climatizado con exclusividades en vino, licor, cerveza y delicatessen.',
+                b2_idx: '02 / DESDE 2002',
+                b2_title: 'Nuestra Historia',
+                b2_sub: 'De Mendoza a la Frontera',
+                b2_desc: 'Primera vinoteca especializada de Puerto Iguazú.',
+                ig_idx: 'INSTAGRAM OFICIAL · 27,4 MIL SEGUIDORES',
+                ig_desc: '5.385 publicaciones · Degustaciones, capacitaciones y etiquetas',
+                b3_idx: '03 / RESEÑAS',
+                b3_title: 'Tripadvisor',
+                b3_sub: 'N.º 1 en Iguazú',
+                b3_desc: '231 opiniones y 51 fotos en Comida y bebida.',
+                b4_idx: '04 / GPS',
+                b4_title: 'Cómo Llegar',
+                b4_sub: 'Puerto Iguazú',
+                b4_desc: 'Av. República Argentina 188, N3370 Misiones.',
+                hl_title: 'Propuestas del Showroom',
+                hl_sub: 'En Av. Rep. Argentina 188',
+                chip_unit: 'Por unidad',
+                chip_kits: 'Kits',
+                chip_liq: 'Licores',
+                chip_promo: 'Promociones',
+                chip_spark: 'Espumantes',
+                chip_tast: 'Degustaciones',
+                chip_deli: 'Delicatessen',
+                reg_head: 'Cada paladar tiene su región',
+                reg_sub: 'Curaduría',
+                reg_quote: '“Primero tenés que conocer tu paladar” — Laureano Giovanini',
+                cov_pill: 'Puerto Iguazú · 3 Fronteras',
+                cov_addr: 'Av. República Argentina 188 · Desde 2002',
+                cov_zoom: 'Ver foto ↗',
+                gal_title: 'Nuestro Showroom & Cava',
+                gal_sub: 'Interior, cava y etiquetas · Toca para ampliar',
+                gal_1: 'Showroom climatizado',
+                gal_2: 'Salón Don Jorge',
+                gal_3: 'La Cava',
+                gal_4: 'Estanterías',
+                gal_5: 'Selección de Bodegas',
+                gal_6: 'Etiquetas',
+                gal_7: 'Espumantes',
+                gal_8: 'Vinos y Delicatessen',
+                hrs_title: 'Horario de Atención',
+                hrs_monsat: 'Lunes a sábado',
+                hrs_sun: 'Domingo',
+                hrs_note: '*Hora de Argentina · En días feriados el horario puede variar.',
+                hrs_open: '● Abierto Ahora',
+                hrs_closed_prefix: 'Cerrado · Abre ',
+                map_title: 'Puerto Iguazú · 3 Fronteras',
+                map_addr: 'Av. República Argentina 188 · Puerto Iguazú, Misiones, Argentina',
+                map_open: 'Abrir ubicación en Google Maps',
+                map_go: 'Cómo llegar ↗',
+                ft_since: 'DESDE 2002',
+                ft_legal_html: 'Av. República Argentina 188 · N3370 Puerto Iguazú, Misiones<br>Tel. +54 3757-424283 · @lavinotecadedonjorge',
+                modal_title: 'De Mendoza a la Frontera · Desde 2002',
+                modal_kicker: 'El origen · 2002 · Reportaje 100 Fronteiras',
+                modal_p1: 'En 2002, cuando el vino en Puerto Iguazú todavía se encontraba en ferias sin estructura, <strong>Jorge</strong> (<em>in memoriam</em>) y <strong>María Luisa Salazar</strong> fueron hasta Mendoza para conocer de cerca aquel universo y abrieron la <strong>primera vinoteca especializada de la ciudad</strong>. Poco después, su hijo <strong>Laureano Giovanini</strong> se sumó a la operación.',
+                modal_quote: '“Fue un mundo enorme que se abrió para nosotros. Sigo diciendo que fuimos la primera, y la mejor, vinoteca de Puerto Iguazú. El espacio climatizado, las botellas bien organizadas y la atención atenta cambiaron el estándar de la ciudad.”',
+                modal_author: '— María Luisa Salazar · Cofundadora',
+                modal_pill: 'De pionera en 2002 a nombre consolidado en la frontera: hoy, el 98% de los clientes de La Vinoteca de Don Jorge son brasileños, y muchos salen sabiendo más sobre su propio paladar que cuando entraron.',
+                modal_p2: '“El Malbec sigue protagonista, pero la elección del vino comienza por el gusto de quien bebe.” — <strong>Laureano Giovanini</strong>.',
+                regions: {
+                    patagonia: {
+                        title: 'Patagonia',
+                        desc: 'Para quienes prefieren vinos más suaves.',
+                        meta: 'En nuestra casa: Bodega Ribera del Cuarzo · Valle Azul, Río Negro (Araucana Azul).'
+                    },
+                    mendoza: {
+                        title: 'Mendoza',
+                        desc: 'Estructura mediana y equilibrio.',
+                        meta: 'En nuestra casa: Bodega Clos de Chacras · Eredità · Gran Estirpe · Terrazas.'
+                    },
+                    salta: {
+                        title: 'Salta',
+                        desc: 'Intensos y con cuerpo, de altura.',
+                        meta: 'Vinos de altura del norte argentino para paladares intensos.'
+                    }
+                },
+                galleryCaptions: [
+                    'Frente de La Vinoteca de Don Jorge · Av. Rep. Argentina 188',
+                    'Showroom climatizado · Puerto Iguazú',
+                    'Salón de La Vinoteca de Don Jorge',
+                    'La Cava de ladrillo visto',
+                    'Estanterías organizadas por bodega y cepa',
+                    'Selección de etiquetas argentinas',
+                    'Etiquetas seleccionadas en showroom',
+                    'Espumantes y propuestas del salón',
+                    'Vinos y delicatessen'
+                ]
+            },
+            pt: {
+                mood_day: 'Dia',
+                mood_sunset: 'Pôr do Sol',
+                music_label_on: '🔊 Música',
+                music_label_off: '🔈 Música',
+                music_empty: 'Envie .mp3 para /music',
+                marquee: 'DESDE 2002 EM PUERTO IGUAZÚ ✦ PRIMEIRA VINOTECA ESPECIALIZADA ✦ PREÇOS ESPECIAIS POR CAIXA FECHADA ✦ SHOWROOM CLIMATIZADO ✦',
+                cat_tag: 'Loja de vinhos, cervejas e licores',
+                bio_quote: '“La Vinoteca de Don Jorge, a casa mais completa para o aficionado ao vinho nas 3 Fronteiras.”',
+                rep_google: '4.5 Google · 1.446 avaliações',
+                rep_trip: '4.2 Tripadvisor · N.º 1 em Iguazú',
+                hero_eyebrow: 'Site Oficial',
+                hero_sub: 'Vinhos, cervejas, licores e delicatessen · Puerto Iguazú',
+                phone_tag: 'Telefone',
+                phone_sub: 'Atendimento com horário estendido · Av. Rep. Argentina 188',
+                b1_idx: '01 / SHOWROOM',
+                b1_title: 'Caixa Fechada',
+                b1_sub: 'Preços especiais',
+                b1_desc: 'Espaço climatizado com exclusividades em vinho, licor, cerveja e delicatessen.',
+                b2_idx: '02 / DESDE 2002',
+                b2_title: 'Nossa História',
+                b2_sub: 'De Mendoza à Fronteira',
+                b2_desc: 'Primeira vinoteca especializada de Puerto Iguazú.',
+                ig_idx: 'INSTAGRAM OFICIAL · 27,4 MIL SEGUIDORES',
+                ig_desc: '5.385 publicações · Degustações, capacitações e rótulos',
+                b3_idx: '03 / AVALIAÇÕES',
+                b3_title: 'Tripadvisor',
+                b3_sub: 'N.º 1 em Iguazú',
+                b3_desc: '231 avaliações e 51 fotos em Gastronomia.',
+                b4_idx: '04 / GPS',
+                b4_title: 'Como Chegar',
+                b4_sub: 'Puerto Iguazú',
+                b4_desc: 'Av. República Argentina 188, N3370 Misiones.',
+                hl_title: 'Propostas do Showroom',
+                hl_sub: 'Na Av. Rep. Argentina 188',
+                chip_unit: 'Por unidade',
+                chip_kits: 'Kits',
+                chip_liq: 'Licores',
+                chip_promo: 'Promoções',
+                chip_spark: 'Espumantes',
+                chip_tast: 'Degustações',
+                chip_deli: 'Delicatessen',
+                reg_head: 'Cada paladar tem a sua região',
+                reg_sub: 'Curadoria',
+                reg_quote: '“Primeiro você tem que conhecer o seu paladar” — Laureano Giovanini',
+                cov_pill: 'Puerto Iguazú · 3 Fronteiras',
+                cov_addr: 'Av. República Argentina 188 · Desde 2002',
+                cov_zoom: 'Ver foto ↗',
+                gal_title: 'Nosso Showroom & Adega',
+                gal_sub: 'Interior, adega e rótulos · Toque para ampliar',
+                gal_1: 'Showroom climatizado',
+                gal_2: 'Salão Don Jorge',
+                gal_3: 'A Adega',
+                gal_4: 'Prateleiras',
+                gal_5: 'Seleção de Vinícolas',
+                gal_6: 'Rótulos',
+                gal_7: 'Espumantes',
+                gal_8: 'Vinhos e Delicatessen',
+                hrs_title: 'Horário de Atendimento',
+                hrs_monsat: 'Segunda a sábado',
+                hrs_sun: 'Domingo',
+                hrs_note: '*Horário da Argentina · Em feriados o horário pode variar.',
+                hrs_open: '● Aberto Agora',
+                hrs_closed_prefix: 'Fechado · Abre ',
+                map_title: 'Puerto Iguazú · 3 Fronteiras',
+                map_addr: 'Av. República Argentina 188 · Puerto Iguazú, Misiones, Argentina',
+                map_open: 'Abrir localização no Google Maps',
+                map_go: 'Como chegar ↗',
+                ft_since: 'DESDE 2002',
+                ft_legal_html: 'Av. República Argentina 188 · N3370 Puerto Iguazú, Misiones<br>Tel. +54 3757-424283 · @lavinotecadedonjorge',
+                modal_title: 'De Mendoza à Fronteira · Desde 2002',
+                modal_kicker: 'A origem · 2002 · Reportagem 100 Fronteiras',
+                modal_p1: 'Em 2002, quando vinho em Puerto Iguazú ainda se achava em feiras sem estrutura nenhuma, <strong>Jorge</strong> (<em>in memoriam</em>) e <strong>Maria Luisa Salazar</strong> foram até Mendoza para conhecer de perto aquele universo e abriram a <strong>primeira vinoteca especializada da cidade</strong>. Logo depois, o filho <strong>Laureano Giovanini</strong> entrou na operação.',
+                modal_quote: '“Foi um mundo enorme que se abriu para nós. Sigo dizendo que fomos a primeira, e a melhor, vinoteca de Puerto Iguazú. O espaço climatizado, as garrafas bem organizadas e o atendimento atencioso mudaram o padrão da cidade.”',
+                modal_author: '— Maria Luisa Salazar · Cofundadora',
+                modal_pill: 'De pioneira em 2002 a nome consolidado na fronteira: hoje, 98% dos clientes da Vinoteca Don Jorge são brasileiros e muitos saem sabendo mais sobre o próprio paladar do que quando entraram.',
+                modal_p2: '“O Malbec segue protagonista, mas a escolha do vinho começa pelo gosto de quem bebe.” — <strong>Laureano Giovanini</strong>.',
+                regions: {
+                    patagonia: {
+                        title: 'Patagônia',
+                        desc: 'Para quem prefere vinhos mais suaves.',
+                        meta: 'Na nossa casa: Bodega Ribera del Cuarzo · Valle Azul, Río Negro (Araucana Azul).'
+                    },
+                    mendoza: {
+                        title: 'Mendoza',
+                        desc: 'Estrutura média e equilíbrio.',
+                        meta: 'Na nossa casa: Bodega Clos de Chacras · Eredità · Gran Estirpe · Terrazas.'
+                    },
+                    salta: {
+                        title: 'Salta',
+                        desc: 'Intensos e encorpados, de altitude.',
+                        meta: 'Vinhos de altitude do norte argentino para paladares intensos.'
+                    }
+                },
+                galleryCaptions: [
+                    'Fachada de La Vinoteca de Don Jorge · Av. Rep. Argentina 188',
+                    'Showroom climatizado · Puerto Iguazú',
+                    'Salão de La Vinoteca de Don Jorge',
+                    'A Adega de tijolos à vista',
+                    'Prateleiras organizadas por vinícola e uva',
+                    'Seleção de rótulos argentinos',
+                    'Rótulos selecionados no showroom',
+                    'Espumantes e propostas do salão',
+                    'Vinhos e delicatessen'
+                ]
+            },
+            en: {
+                mood_day: 'Day',
+                mood_sunset: 'Sunset',
+                music_label_on: '🔊 Music',
+                music_label_off: '🔈 Music',
+                music_empty: 'Upload .mp3 to /music',
+                marquee: 'SINCE 2002 IN PUERTO IGUAZÚ ✦ FIRST SPECIALIZED WINE SHOP ✦ SPECIAL PRICES BY SEALED CASE ✦ CLIMATE-CONTROLLED SHOWROOM ✦',
+                cat_tag: 'Wine, beer and spirits store',
+                bio_quote: '“La Vinoteca de Don Jorge, the most complete shop for wine lovers in the 3 Borders.”',
+                rep_google: '4.5 Google · 1,446 reviews',
+                rep_trip: '4.2 Tripadvisor · #1 in Iguazú',
+                hero_eyebrow: 'Official Website',
+                hero_sub: 'Wines, beers, spirits and delicatessen · Puerto Iguazú',
+                phone_tag: 'Phone',
+                phone_sub: 'Open with extended hours · Av. Rep. Argentina 188',
+                b1_idx: '01 / SHOWROOM',
+                b1_title: 'Sealed Case',
+                b1_sub: 'Special prices',
+                b1_desc: 'Climate-controlled space with exclusive wines, spirits, beer, and delicatessen.',
+                b2_idx: '02 / SINCE 2002',
+                b2_title: 'Our Story',
+                b2_sub: 'From Mendoza to the Border',
+                b2_desc: "Puerto Iguazú's first specialized wine shop.",
+                ig_idx: 'OFFICIAL INSTAGRAM · 27.4K FOLLOWERS',
+                ig_desc: '5,385 posts · Tastings, masterclasses and winery labels',
+                b3_idx: '03 / REVIEWS',
+                b3_title: 'Tripadvisor',
+                b3_sub: '#1 in Iguazú',
+                b3_desc: '231 reviews and 51 photos in Food & Drink.',
+                b4_idx: '04 / GPS',
+                b4_title: 'Directions',
+                b4_sub: 'Puerto Iguazú',
+                b4_desc: 'Av. República Argentina 188, N3370 Misiones.',
+                hl_title: 'Showroom Selections',
+                hl_sub: 'At Av. Rep. Argentina 188',
+                chip_unit: 'Single bottle',
+                chip_kits: 'Gift kits',
+                chip_liq: 'Spirits',
+                chip_promo: 'Promotions',
+                chip_spark: 'Sparkling wine',
+                chip_tast: 'Tastings',
+                chip_deli: 'Delicatessen',
+                reg_head: 'Every palate has its region',
+                reg_sub: 'Curatorship',
+                reg_quote: '“First you have to know your own palate” — Laureano Giovanini',
+                cov_pill: 'Puerto Iguazú · 3 Borders',
+                cov_addr: 'Av. República Argentina 188 · Since 2002',
+                cov_zoom: 'View photo ↗',
+                gal_title: 'Our Showroom & Cellar',
+                gal_sub: 'Interior, cellar and labels · Tap to enlarge',
+                gal_1: 'Climate-controlled showroom',
+                gal_2: 'Don Jorge Tasting Room',
+                gal_3: 'The Brick Cellar',
+                gal_4: 'Organized shelves',
+                gal_5: 'Winery Selection',
+                gal_6: 'Labels',
+                gal_7: 'Sparkling wines',
+                gal_8: 'Wines and Delicatessen',
+                hrs_title: 'Opening Hours',
+                hrs_monsat: 'Monday to Saturday',
+                hrs_sun: 'Sunday',
+                hrs_note: '*Argentina time (UTC-3) · Hours may vary on holidays.',
+                hrs_open: '● Open Now',
+                hrs_closed_prefix: 'Closed · Opens ',
+                map_title: 'Puerto Iguazú · 3 Borders',
+                map_addr: 'Av. República Argentina 188 · Puerto Iguazú, Misiones, Argentina',
+                map_open: 'Open location in Google Maps',
+                map_go: 'Get directions ↗',
+                ft_since: 'SINCE 2002',
+                ft_legal_html: 'Av. República Argentina 188 · N3370 Puerto Iguazú, Misiones<br>Phone +54 3757-424283 · @lavinotecadedonjorge',
+                modal_title: 'From Mendoza to the Border · Since 2002',
+                modal_kicker: 'The origin · 2002 · 100 Fronteiras report',
+                modal_p1: 'In 2002, when wine in Puerto Iguazú could only be found in unstructured street stalls, <strong>Jorge</strong> (<em>in memoriam</em>) and <strong>María Luisa Salazar</strong> traveled all the way to Mendoza to discover that universe firsthand and opened the <strong>city’s very first specialized wine shop</strong>. Soon after, their son <strong>Laureano Giovanini</strong> joined the family operation.',
+                modal_quote: '“It was an enormous world that opened up for us. I still say we were the first, and the finest, wine shop in Puerto Iguazú. The climate-controlled space, well-curated shelves, and dedicated service raised the benchmark for the entire destination.”',
+                modal_author: '— María Luisa Salazar · Co-founder',
+                modal_pill: 'From pioneer in 2002 to a consolidated landmark across the tri-border region: today, 98% of visitors are cross-border travelers, and many leave knowing far more about their own palate than when they entered.',
+                modal_p2: '“Malbec remains the star, but choosing wine always starts with the palate of who is enjoying it.” — <strong>Laureano Giovanini</strong>.',
+                regions: {
+                    patagonia: {
+                        title: 'Patagonia',
+                        desc: 'For those who prefer smoother, fresher wines.',
+                        meta: 'In our cellar: Bodega Ribera del Cuarzo · Valle Azul, Río Negro (Araucana Azul).'
+                    },
+                    mendoza: {
+                        title: 'Mendoza',
+                        desc: 'Medium body, elegance and textbook balance.',
+                        meta: 'In our cellar: Bodega Clos de Chacras · Eredità · Gran Estirpe · Terrazas.'
+                    },
+                    salta: {
+                        title: 'Salta',
+                        desc: 'Intense, structured, high-altitude character.',
+                        meta: 'High-altitude wines from northern Argentina for intense palates.'
+                    }
+                },
+                galleryCaptions: [
+                    'Front of La Vinoteca de Don Jorge · Av. Rep. Argentina 188',
+                    'Climate-controlled showroom · Puerto Iguazú',
+                    'Don Jorge Tasting Room',
+                    'The exposed brick cellar',
+                    'Shelves curated by winery and grape varietal',
+                    'Selected Argentine labels',
+                    'Showroom featured bottles',
+                    'Sparkling wines and cellar offerings',
+                    'Wines and gourmet delicatessen'
+                ]
+            }
+        };
+
+        function updateMoodButtonLabel(mood) {
+            const dict = I18N[currentLang] || I18N.es;
+            const lbl = document.getElementById('moodLabel');
+            if (lbl) lbl.textContent = mood === 'day' ? dict.mood_day : dict.mood_sunset;
+        }
+
+        function setLanguage(lang) {
+            if (!I18N[lang]) lang = 'es';
+            currentLang = lang;
+            document.documentElement.lang = lang;
+
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === lang);
+            });
+
+            const dict = I18N[lang];
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (dict[key]) el.textContent = dict[key];
+            });
+
+            document.querySelectorAll('[data-i18n-html]').forEach(el => {
+                const key = el.getAttribute('data-i18n-html');
+                if (dict[key]) el.innerHTML = dict[key];
+            });
+
+            const currentMood = document.body.getAttribute('data-mood') || 'day';
+            updateMoodButtonLabel(currentMood);
+
+            const sw = document.getElementById('musicSwitch');
+            const isPlaying = sw && sw.classList.contains('active');
+            updateMusicUI(isPlaying);
+
+            const activeRegBtn = document.querySelector('.region-tab-btn.active');
+            const regKey = activeRegBtn ? activeRegBtn.dataset.region : 'patagonia';
+            selectRegion(regKey, false);
+
+            if (typeof updateLightbox === 'function') {
+                updateLightbox();
+            }
+
+            if (typeof updateLiveHours === 'function') {
+                updateLiveHours();
+            }
+
+            try { localStorage.setItem('dj_lang', lang); } catch(e) {}
+        }
+
+        /* =========================================================
+           3. MOTOR DE MÚSICA AUTO-DETECTADA EN /music (GITHUB API, SIN SHEETS)
            ========================================================= */
         const REPO_API_MUSIC = 'https://api.github.com/repos/linkuniversal/vinotecadedonjorge/contents/music';
         const DEFAULT_VOL = 0.26;
@@ -2309,10 +2722,11 @@
         }
 
         function updateMusicUI(active, customMsg = null) {
+            const dict = I18N[currentLang] || I18N.es;
             const sw = document.getElementById('musicSwitch');
             const lbl = document.getElementById('musicLabel');
             if (sw) sw.classList.toggle('active', active);
-            if (lbl) lbl.textContent = customMsg || (active ? '🔊 Música' : '🔈 Música');
+            if (lbl) lbl.textContent = customMsg || (active ? dict.music_label_on : dict.music_label_off);
         }
 
         function pickRandomIndex() {
@@ -2373,10 +2787,11 @@
 
         async function toggleMusic() {
             triggerHaptic();
+            const dict = I18N[currentLang] || I18N.es;
             if (!isMusicPlaying) {
                 await loadMusicFromRepo();
                 if (musicPlaylist.length === 0) {
-                    updateMusicUI(false, 'Sube .mp3 a /music');
+                    updateMusicUI(false, dict.music_empty);
                     setTimeout(() => updateMusicUI(false), 2200);
                     return;
                 }
@@ -2389,9 +2804,10 @@
 
         async function skipMusic() {
             triggerHaptic();
+            const dict = I18N[currentLang] || I18N.es;
             await loadMusicFromRepo();
             if (musicPlaylist.length === 0) {
-                updateMusicUI(false, 'Sube .mp3 a /music');
+                updateMusicUI(false, dict.music_empty);
                 setTimeout(() => updateMusicUI(false), 2200);
                 return;
             }
@@ -2442,30 +2858,15 @@
         });
 
         /* =========================================================
-           3. GUÍA POR REGIONES ("CADA PALADAR TIENE SU REGIÓN")
+           4. GUÍA POR REGIONES
            ========================================================= */
-        const REGIONS_DATA = {
-            patagonia: {
-                title: 'Patagonia',
-                desc: 'Para quienes prefieren vinos más suaves.',
-                meta: 'En nuestra casa: Bodega Ribera del Cuarzo · Valle Azul, Río Negro (Araucana Azul).'
-            },
-            mendoza: {
-                title: 'Mendoza',
-                desc: 'Estructura mediana y equilibrio.',
-                meta: 'En nuestra casa: Bodega Clos de Chacras · Eredità · Gran Estirpe · Terrazas.'
-            },
-            salta: {
-                title: 'Salta',
-                desc: 'Intensos y con cuerpo, de altura.',
-                meta: 'Vinos de altura del norte argentino para paladares intensos.'
-            }
-        };
-
-        function selectRegion(key) {
-            triggerHaptic();
-            const d = REGIONS_DATA[key];
+        function selectRegion(key, triggerHaptics = true) {
+            if (triggerHaptics) triggerHaptic();
+            const dict = I18N[currentLang] || I18N.es;
+            const regions = dict.regions || I18N.es.regions;
+            const d = regions[key];
             if (!d) return;
+
             document.querySelectorAll('.region-tab-btn').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.region === key);
             });
@@ -2475,18 +2876,18 @@
         }
 
         /* =========================================================
-           4. GALERÍA Y LIGHTBOX FULLSCREEN
+           5. GALERÍA Y LIGHTBOX FULLSCREEN
            ========================================================= */
         const GALLERY_PHOTOS = [
-            { file: 'vinotecapuertadelocalycuadra.webp', caption: 'Frente de La Vinoteca de Don Jorge · Av. Rep. Argentina 188' },
-            { file: 'vinotecapordentro.webp', caption: 'Showroom climatizado · Puerto Iguazú' },
-            { file: 'vinotecapordentro2.webp', caption: 'Salón de La Vinoteca de Don Jorge' },
-            { file: 'vinotecapordentro3.webp', caption: 'La Cava de ladrillo visto' },
-            { file: 'estanteriasvinos2.webp', caption: 'Estanterías organizadas por bodega y cepa' },
-            { file: 'vinosestanterias.webp', caption: 'Selección de etiquetas argentinas' },
-            { file: 'vinosprimerplano.webp', caption: 'Etiquetas seleccionadas en showroom' },
-            { file: 'chandonplanomedio.webp', caption: 'Espumantes y propuestas del salón' },
-            { file: 'vinoyjamon.webp', caption: 'Vinos y delicatessen' }
+            'vinotecapuertadelocalycuadra.webp',
+            'vinotecapordentro.webp',
+            'vinotecapordentro2.webp',
+            'vinotecapordentro3.webp',
+            'estanteriasvinos2.webp',
+            'vinosestanterias.webp',
+            'vinosprimerplano.webp',
+            'chandonplanomedio.webp',
+            'vinoyjamon.webp'
         ];
 
         const RAW_BASE = 'https://raw.githubusercontent.com/linkuniversal/vinotecadedonjorge/main/';
@@ -2502,17 +2903,20 @@
         }
 
         function updateLightbox() {
-            const item = GALLERY_PHOTOS[currentPhotoIdx];
+            const fileName = GALLERY_PHOTOS[currentPhotoIdx];
+            const dict = I18N[currentLang] || I18N.es;
+            const captions = dict.galleryCaptions || I18N.es.galleryCaptions;
+
             lbImg.onerror = function() {
                 if (!this.dataset.fb) {
                     this.dataset.fb = '1';
-                    this.src = RAW_BASE + item.file;
+                    this.src = RAW_BASE + fileName;
                 }
             };
             lbImg.dataset.fb = '';
-            lbImg.src = './' + item.file;
+            lbImg.src = './' + fileName;
             lbCounter.textContent = `${currentPhotoIdx + 1} / ${GALLERY_PHOTOS.length}`;
-            lbCaption.textContent = item.caption;
+            lbCaption.textContent = captions[currentPhotoIdx] || fileName;
         }
 
         function openLightbox(idx) {
@@ -2543,7 +2947,7 @@
         });
 
         /* =========================================================
-           5. MODAL HISTORIA & TELEMETRÍA HORARIOS (ARGENTINA UTC-3)
+           6. MODAL HISTORIA & TELEMETRÍA HORARIOS (ARGENTINA UTC-3)
            ========================================================= */
         const storyModal = document.getElementById('storyModal');
         function openStoryModal() {
@@ -2570,33 +2974,35 @@
             rSun.classList.remove('active-slot');
 
             let isOpen = false;
-            let closedHint = 'Abre 08:30h';
+            let closedTime = '08:30h';
 
             if (day === 0) {
                 rSun.classList.add('active-slot');
                 if ((timeVal >= 9.0 && timeVal < 13.0) || (timeVal >= 16.0 && timeVal < 20.0)) {
                     isOpen = true;
                 } else if (timeVal >= 13.0 && timeVal < 16.0) {
-                    closedHint = 'Abre 16:00h';
+                    closedTime = '16:00h';
                 } else if (timeVal < 9.0) {
-                    closedHint = 'Abre 09:00h';
+                    closedTime = '09:00h';
                 }
             } else {
                 rMonSat.classList.add('active-slot');
                 if (timeVal >= 8.5 && timeVal < 22.0) {
                     isOpen = true;
                 } else {
-                    closedHint = (day === 6 && timeVal >= 22.0) ? 'Abre Dom 09:00h' : 'Abre 08:30h';
+                    closedTime = (day === 6 && timeVal >= 22.0) ? (currentLang === 'pt' ? 'Dom 09:00h' : currentLang === 'en' ? 'Sun 09:00h' : 'Dom 09:00h') : '08:30h';
                 }
             }
 
+            const dict = I18N[currentLang] || I18N.es;
             if (isOpen) {
-                pill.textContent = '● Abierto Ahora';
+                pill.textContent = dict.hrs_open || '● Abierto Ahora';
                 pill.style.color = '#3E6702';
                 pill.style.borderColor = '#578E03';
                 pill.style.background = 'rgba(195, 220, 21, 0.34)';
             } else {
-                pill.textContent = `Cerrado · ${closedHint}`;
+                const prefix = dict.hrs_closed_prefix || 'Cerrado · Abre ';
+                pill.textContent = `${prefix}${closedTime}`;
                 pill.style.color = '#59025C';
                 pill.style.borderColor = 'rgba(146, 28, 150, 0.30)';
                 pill.style.background = '#FFFFFF';
@@ -2639,9 +3045,15 @@
                     document.body.setAttribute('data-mood', 'sunset');
                     Vineyard3D.setSun(0.72);
                     document.getElementById('moodIcon').textContent = '🌅';
-                    document.getElementById('moodLabel').textContent = 'Atardecer';
                 }
             } catch(e) {}
+
+            try {
+                const savedLang = localStorage.getItem('dj_lang') || 'es';
+                setLanguage(savedLang);
+            } catch(e) {
+                setLanguage('es');
+            }
 
             requestAnimationFrame(() => document.body.classList.remove('preload'));
         });
